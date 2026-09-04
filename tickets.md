@@ -40,3 +40,9 @@ Resolution: 根因: 编号规则专题讨论定稿+范围变更；修复: 编号
 Status: done
 
 - [ ] 编号体系v2(表单层级段/样品业务线段/记录模板号)+报价管理+记录模板库+历史导入(明细级)模块,更新设计规格
+
+## T-005 P1-基础实现计划
+Resolution: 根因: 设计已批准需拆实现计划；修复: P1-基础计划(8任务: 骨架/User+alembic/安全/登录/RBAC/编号v2/前端登录/compose部署)，自审修正6处(文件清单/cwd/conftest导入/接口签名/import位置/Dockerfile glob)；验证: 规格覆盖M1全部, 无占位符, 命名一致
+Status: review
+
+- [ ] writing-plans: 骨架/认证/RBAC/编号服务/前端登录/部署 8任务TDD计划
