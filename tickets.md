@@ -46,3 +46,8 @@ Resolution: 根因: 设计已批准需拆实现计划；修复: P1-基础计划(
 Status: done
 
 - [ ] writing-plans: 骨架/认证/RBAC/编号服务/前端登录/部署 8任务TDD计划
+
+## T-006 P1-实现：基础底座
+Status: review
+
+- [ ] 执行 P1 计划 8 任务: 骨架/认证/RBAC/编号服务/前端登录/部署

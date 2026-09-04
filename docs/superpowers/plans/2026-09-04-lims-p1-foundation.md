@@ -4,6 +4,7 @@
 - 规格：docs/superpowers/specs/2026-09-04-lims-mvp-design.md
 - 对应里程碑：M1
 - 工单建议：执行时开 1 张工单（如 T-005 "P1-基础"），每完成一个 Task 勾选并提交
+- **执行偏差（2026-09-04）**：本机仅 Python 3.10（装 3.12 需 GitHub 镜像，网络受限）→ 版本约束降为 `>=3.10`，Dockerfile 用 `python:3.10-slim`；docker 缺失 → Task 8 冒烟改为本机 uvicorn+vite 直跑，容器链路待补跑
 
 ## Goal
 
@@ -18,7 +19,7 @@
 
 ## Tech Stack
 
-Python 3.12 / FastAPI / SQLAlchemy 2 / Pydantic v2 / Alembic / PyJWT / bcrypt / pytest + httpx / Node 22 / Vite / React 18 / AntD 5 / nginx / PostgreSQL 16
+Python 3.10+ / FastAPI / SQLAlchemy 2 / Pydantic v2 / Alembic / PyJWT / bcrypt / pytest + httpx / Node 22 / Vite / React 18 / AntD 5 / nginx / PostgreSQL 16
 
 ## Global Constraints（自规格逐字继承）
 
@@ -114,7 +115,7 @@ lims/
 [project]
 name = "lims-backend"
 version = "0.1.0"
-requires-python = ">=3.12"
+requires-python = ">=3.10"
 dependencies = [
   "fastapi>=0.111",
   "uvicorn[standard]>=0.30",
@@ -1108,7 +1109,7 @@ ReactDOM.createRoot(document.getElementById('root')!).render(<React.StrictMode><
 - [ ] 8.1 写 `deploy/Dockerfile.api`：
 
 ```dockerfile
-FROM python:3.12-slim
+FROM python:3.10-slim
 WORKDIR /srv
 COPY backend/ .
 RUN pip install --no-cache-dir .
