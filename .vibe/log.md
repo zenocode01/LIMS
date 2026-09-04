@@ -28,3 +28,5 @@
 2026-09-04 08:55:47 | auto-sync | in-progress -> review (Phase=review)
 2026-09-04 08:55:47 | phase | verify -> review --green
 2026-09-04 08:55:47 | phase | review -> commit --pass
+2026-09-04 08:56:22 | branch | merged vibe/T-002 -> main and deleted
+2026-09-04 08:56:22 | close | T-002 (LIMS MVP 设计规格)
