@@ -19,6 +19,6 @@ Resolution:              # 修复情况（根因+修复+验证），close 前用
 
 ## T-001 初始化工单工作台骨架
 Resolution: 根因: 新项目无基线；修复: zcode ticket init 铺骨架 + 填 Domain(LIMS/EMC) + 登记 6 条术语(EMC/EMI/ESD/测试委托单/样品/测试报告)；验证: zcode ticket validate 仅剩'无工单'一条(本单完成后消失)
-Status: review
+Status: done
 
 - [ ] LIMS/EMC 项目基线：工单骨架、Domain、术语表
