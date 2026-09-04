@@ -1,5 +1,5 @@
 project: lims
 created: 2026-09-04
 workbench: zcode
-branch: 
-branch-base: 
+branch: vibe/T-002
+branch-base: main
