@@ -1,0 +1,40 @@
+#!/bin/sh
+# zcode 工单工作台 pre-commit hook
+# 提交前强制校验状态机；非法状态直接拦截提交。
+# 由 `zcode ticket install` 安装，路径: .vibe/hooks/pre-commit
+# 跨平台: Unix 用 zcode 包装器/python；Windows(git-bash 宿主) 用 powershell.exe 调 zcode
+
+OS_NAME=$(uname -s 2>/dev/null)
+
+# ---------- Unix: 直接执行 ----------
+if [ "$OS_NAME" = "Linux" ] || [ "$OS_NAME" = "Darwin" ]; then
+  # 1) 优先 PATH 里的 zcode 包装器（跨平台最稳）
+  if command -v zcode >/dev/null 2>&1; then
+    zcode ticket check-commit
+    exit $?
+  fi
+  # 2) 退回 git config 记录的 CLI（如 "/usr/bin/python3" -m zcode.cli）
+  ZCODE_CLI=$(git config --get zcode.cli 2>/dev/null)
+  if [ -n "$ZCODE_CLI" ]; then
+    eval "$ZCODE_CLI ticket check-commit"
+    exit $?
+  fi
+  echo "zcode: 找不到 CLI，跳过 pre-commit 校验"
+  exit 0
+fi
+
+# ---------- Windows（Git Bash / MSYS 宿主）: powershell 调 zcode.cmd ----------
+POWERSHELL=""
+if command -v powershell.exe >/dev/null 2>&1; then POWERSHELL=powershell.exe; fi
+if command -v pwsh >/dev/null 2>&1; then POWERSHELL=pwsh; fi
+if [ -z "$POWERSHELL" ]; then
+  echo "zcode: 找不到 PowerShell，跳过 pre-commit 校验"
+  exit 0
+fi
+
+"$POWERSHELL" -NoProfile -Command "try { zcode ticket check-commit; exit \$LASTEXITCODE } catch { Write-Error \$_; exit 1 }"
+RC=$?
+if [ $RC -ne 0 ]; then
+  echo "zcode: 提交被拦截 — 请先满足状态机要求（见上方提示；若提示找不到 zcode，先运行 scripts/install.ps1）"
+fi
+exit $RC
