@@ -22,3 +22,9 @@ Resolution: 根因: 新项目无基线；修复: zcode ticket init 铺骨架 + �
 Status: done
 
 - [ ] LIMS/EMC 项目基线：工单骨架、Domain、术语表
+
+## T-002 LIMS MVP 设计规格
+Resolution: 根因: 新项目无设计基线；修复: 完成 LIMS MVP 设计规格（领域模型/状态机/技术栈FastAPI+PG+React/10模块/权限矩阵/二级签发/审计设计），编号规则留专题占位；验证: 文档已评审关键决策（范围/方案A/权限/二级签发均获用户确认）
+Status: review
+
+- [ ] 领域模型/技术栈/模块/权限/报告流程设计文档；编号规则占位待专题
