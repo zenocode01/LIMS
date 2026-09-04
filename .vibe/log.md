@@ -42,3 +42,14 @@
 2026-09-04 08:59:46 | phase | review -> commit --pass
 2026-09-04 08:59:51 | branch | merged vibe/T-003 -> main and deleted
 2026-09-04 08:59:51 | close | T-003 (设计文档自审修正)
+2026-09-04 09:21:59 | gloss | add 表单层级
+2026-09-04 09:21:59 | add | T-004 (编号规则定稿+设计文档更新)
+2026-09-04 09:22:00 | branch | created vibe/T-004 (from main)
+2026-09-04 09:22:00 | begin | T-004 (编号规则定稿+设计文档更新)
+2026-09-04 09:23:53 | phase | analyze -> plan
+2026-09-04 09:23:53 | phase | plan -> implement
+2026-09-04 09:23:53 | phase | implement -> verify --green --force
+2026-09-04 09:23:53 | resolve | T-004 (编号规则定稿+设计文档更新)
+2026-09-04 09:23:53 | auto-sync | in-progress -> review (Phase=review)
+2026-09-04 09:23:53 | phase | verify -> review --green
+2026-09-04 09:23:53 | phase | review -> commit --pass
