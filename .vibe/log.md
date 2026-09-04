@@ -53,3 +53,5 @@
 2026-09-04 09:23:53 | auto-sync | in-progress -> review (Phase=review)
 2026-09-04 09:23:53 | phase | verify -> review --green
 2026-09-04 09:23:53 | phase | review -> commit --pass
+2026-09-04 09:23:54 | branch | merged vibe/T-004 -> main and deleted
+2026-09-04 09:23:54 | close | T-004 (编号规则定稿+设计文档更新)
