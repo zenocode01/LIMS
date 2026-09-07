@@ -67,3 +67,9 @@ Status: done
 - [x] Task1 后端静态托管（config+main+test_static 13 用例，36 全绿）
 - [x] Task2 Windows 脚本（setup.ps1 + start.bat + .gitattributes CRLF）
 - [x] Task3 文档+冒烟（README Windows 章节 + 8011 冒烟 5 项 + vite proxy 可覆盖）
+
+## T-008 修复: Windows 脚本中文编码导致 GBK 乱码/解析风险
+Resolution: 根因: setup.ps1/start.bat 以 UTF-8(无 BOM) 写中文，中文 Windows 的 cmd(GBK/CP936) 与 PowerShell 5.1(无 BOM 按 ANSI 读) 解析乱码——真机 start.bat 报「涓嶅瓨鍦」；且 UTF-8 中文字节被 GBK 当双字节字符解析，trail 字节可能吞掉后续 ASCII（引号/反斜杠），存在脚本语法被破坏的风险（setup.ps1 可能因此中途失败，venv 未建成）；修复: 两脚本整体重写为纯 ASCII 英文提示（保留 CRLF 与全部逻辑），start.bat 的 venv 缺失错误升级为输出实际检查路径 + setup 命令，便于自诊断；验证: LC_ALL=C grep 非 ASCII 字符为 0，file 确认 CRLF，pytest 36 全绿(TestCommand 真实执行)，ps1/bat 逐行人工审查(Push/Pop 配对、无 PS7 语法、bat 括号配对)；真机复验待用户 git pull 后重跑 setup.ps1
+Status: done
+
+- [x] setup.ps1/start.bat 重写为纯 ASCII（英文提示）+ CRLF；start.bat 错误信息输出实际检查路径与 setup 命令

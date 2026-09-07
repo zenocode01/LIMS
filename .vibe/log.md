@@ -96,3 +96,18 @@
 2026-09-07 03:56:25 | resolve | T-007 (Windows 原生部署支持)
 2026-09-07 03:56:46 | branch | merged vibe/T-007 -> main and deleted
 2026-09-07 03:56:46 | close | T-007 (Windows 原生部署支持)
+2026-09-07 07:52:13 | add | T-008 (修复: Windows 脚本中文编码导致 GBK 乱码/解析风险)
+2026-09-07 07:52:13 | branch | created vibe/T-008 (from main)
+2026-09-07 07:52:13 | begin | T-008 (修复: Windows 脚本中文编码导致 GBK 乱码/解析风险)
+2026-09-07 07:52:46 | phase | analyze -> plan
+2026-09-07 07:52:46 | phase | plan -> implement
+2026-09-07 07:53:33 | phase | implement -> verify
+2026-09-07 07:54:09 | verify | verify -> verify exit=0 [cd backend && python3 -m pytest] 证据: /home/dkd/projects/lims/.vibe/evidence/20260907-075354-verify-verify.txt
+2026-09-07 07:54:09 | phase | verify -> verify --green
+2026-09-07 07:54:25 | verify | verify -> review exit=0 [cd backend && python3 -m pytest] 证据: /home/dkd/projects/lims/.vibe/evidence/20260907-075410-verify-review.txt
+2026-09-07 07:54:25 | auto-sync | in-progress -> review (Phase=review)
+2026-09-07 07:54:25 | phase | verify -> review --green
+2026-09-07 07:54:25 | phase | review -> commit --pass
+2026-09-07 07:55:14 | resolve | T-008 (修复: Windows 脚本中文编码导致 GBK 乱码/解析风险)
+2026-09-07 07:55:36 | branch | merged vibe/T-008 -> main and deleted
+2026-09-07 07:55:36 | close | T-008 (修复: Windows 脚本中文编码导致 GBK 乱码/解析风险)
