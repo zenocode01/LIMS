@@ -126,3 +126,18 @@
 2026-09-07 08:14:40 | resolve | T-009 (修复: setup.ps1 Split-Path -Parent -Parent 在 PS 5.1 非法)
 2026-09-07 08:14:56 | branch | merged vibe/T-009 -> main and deleted
 2026-09-07 08:14:56 | close | T-009 (修复: setup.ps1 Split-Path -Parent -Parent 在 PS 5.1 非法)
+2026-09-07 08:33:22 | add | T-010 (修复: setup.ps1 第8行丢失 $root 变量 (T-009 回归))
+2026-09-07 08:33:23 | branch | created vibe/T-010 (from main)
+2026-09-07 08:33:23 | begin | T-010 (修复: setup.ps1 第8行丢失 $root 变量 (T-009 回归))
+2026-09-07 08:44:22 | phase | analyze -> plan
+2026-09-07 08:44:22 | phase | plan -> implement
+2026-09-07 08:44:22 | phase | implement -> verify
+2026-09-07 08:44:53 | verify | verify -> verify exit=0 [cd backend && python3 -m pytest] 证据: /home/dkd/projects/lims/.vibe/evidence/20260907-084438-verify-verify.txt
+2026-09-07 08:44:53 | phase | verify -> verify --green
+2026-09-07 08:45:09 | verify | verify -> review exit=0 [cd backend && python3 -m pytest] 证据: /home/dkd/projects/lims/.vibe/evidence/20260907-084453-verify-review.txt
+2026-09-07 08:45:09 | auto-sync | in-progress -> review (Phase=review)
+2026-09-07 08:45:09 | phase | verify -> review --green
+2026-09-07 08:45:09 | phase | review -> commit --pass
+2026-09-07 08:46:01 | resolve | T-010 (修复: setup.ps1 第8行丢失 $root 变量 (T-009 回归))
+2026-09-07 08:46:17 | branch | merged vibe/T-010 -> main and deleted
+2026-09-07 08:46:17 | close | T-010 (修复: setup.ps1 第8行丢失 $root 变量 (T-009 回归))

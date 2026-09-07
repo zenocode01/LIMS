@@ -79,3 +79,9 @@ Resolution: 根因: setup.ps1 第 8 行 Split-Path $PSScriptRoot -Parent -Parent
 Status: done
 
 - [x] 第 8 行改为嵌套写法 Split-Path (Split-Path $PSScriptRoot -Parent) -Parent（PS 5.1/PS7 双兼容），CRLF/纯 ASCII 验证通过
+
+## T-010 修复: setup.ps1 第8行丢失 $root 变量 (T-009 回归)
+Resolution: 根因: T-009 用 perl -pi -e 's/.../$root = .../' 替换时，替换串（s/// 右侧）中的 $root 被 perl 当作 perl 变量展开成空字符串，导致第 8 行变成「 = Split-Path (Split-Path $PSScriptRoot -Parent) -Parent」——丢失赋值左值。该写法 PowerShell 语法合法（被解析为调用名为 '=' 的命令），故 ParseFile 报 PARSE OK，但真机运行时报 "The term '=' is not recognized"；修复: 第 8 行恢复为 $root = Split-Path (Split-Path $PSScriptRoot -Parent) -Parent（改用 edit 工具精确子串替换，规避 perl 变量展开）；验证: 安装 pwsh 7.6.5（经 gitproxy 代理），复刻用户 E:\02-AREA\LIMS\LIMS 目录结构 + 假 python/node/npm 搭 mock 真跑——happy path 6 步全过 EXIT 0、无 Python 时干净报错 exit 1、venv 不存在时正确走 Creating venv 分支，路径解析 root/backend/frontend 全部正确，CRLF/纯 ASCII 验证通过，pytest 36 全绿（TestCommand 真实执行）；真机待用户 git pull 后重跑复验
+Status: done
+
+- [x] 第 8 行恢复 $root 前缀（perl 替换回归）；mock 环境真跑 setup.ps1 全分支验证（happy path 6 步 EXIT 0 / Python 缺失报错 / venv 不存在建分支）
