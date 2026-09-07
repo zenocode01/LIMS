@@ -1,9 +1,15 @@
 @echo off
-rem LIMS Windows 日常启动 — 双击即用（先跑过 setup.ps1）
+rem LIMS Windows daily start - double-click to run (run setup.ps1 first)
+rem Pure ASCII on purpose: cmd reads bat as ANSI/GBK on zh-CN Windows,
+rem CJK chars get garbled and can corrupt parsing.
 cd /d "%~dp0..\..\backend"
 set "STATIC_DIR=%~dp0..\..\frontend\dist"
 if not exist ".venv\Scripts\python.exe" (
-    echo [ERROR] backend\.venv 不存在，请先运行 deploy\windows\setup.ps1
+    echo [ERROR] venv not found at:
+    echo     %cd%\.venv\Scripts\python.exe
+    echo.
+    echo Run the one-time setup first:
+    echo     powershell -ExecutionPolicy Bypass -File deploy\windows\setup.ps1
     pause
     exit /b 1
 )

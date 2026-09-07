@@ -1,14 +1,17 @@
 #Requires -Version 5.1
-# LIMS Windows 一次性部署 — T-007
-# 用法: powershell -ExecutionPolicy Bypass -File deploy\windows\setup.ps1
+# LIMS Windows one-time setup - T-007/T-008
+# NOTE: pure ASCII on purpose. cmd/PowerShell 5.1 read scripts without BOM as
+# ANSI/GBK on zh-CN Windows; CJK chars get garbled and can corrupt parsing.
+# Usage: powershell -ExecutionPolicy Bypass -File deploy\windows\setup.ps1
 $ErrorActionPreference = "Stop"
 
 $root = Split-Path $PSScriptRoot -Parent -Parent
 $backend = Join-Path $root "backend"
 $frontend = Join-Path $root "frontend"
-Write-Host "== LIMS Windows 部署 (root: $root) =="
+Write-Host "== LIMS Windows setup (root: $root) =="
 
-# 1/6 定位 Python >= 3.10（python 优先；商店别名会失败则退回 py launcher）
+# 1/6 Locate Python >= 3.10 (try 'python' first; fall back to 'py' launcher if
+# the Microsoft Store alias or an old version fails)
 $pyCmd = $null
 foreach ($candidate in @("python", "py")) {
     if (-not (Get-Command $candidate -ErrorAction SilentlyContinue)) { continue }
@@ -16,32 +19,32 @@ foreach ($candidate in @("python", "py")) {
     if ($LASTEXITCODE -eq 0) { $pyCmd = $candidate; break }
 }
 if (-not $pyCmd) {
-    Write-Host "[ERROR] 未找到 Python 3.10+。请安装并勾选 'Add python.exe to PATH'（python.org/downloads）；若 python 打开 Microsoft Store，请用官方安装器。" -ForegroundColor Red
+    Write-Host "[ERROR] Python 3.10+ not found. Install Python 3.10+ with 'Add python.exe to PATH' checked (python.org/downloads). If 'python' opens Microsoft Store, use the official installer." -ForegroundColor Red
     exit 1
 }
 Write-Host "[1/6] Python OK: $(& $pyCmd --version)"
 
-# 2/6 venv（幂等）
+# 2/6 venv (idempotent)
 $venvPy = Join-Path $backend ".venv\Scripts\python.exe"
 if (Test-Path $venvPy) {
-    Write-Host "[2/6] venv 已存在，跳过"
+    Write-Host "[2/6] venv exists, skip"
 } else {
-    Write-Host "[2/6] 创建 venv..."
+    Write-Host "[2/6] Creating venv..."
     & $pyCmd -m venv (Join-Path $backend ".venv")
 }
 
-# 3/6 后端依赖
-Write-Host "[3/6] 安装后端依赖..."
+# 3/6 Backend deps
+Write-Host "[3/6] Installing backend deps..."
 & $venvPy -m pip install --disable-pip-version-check $backend
 
-# 4/6 前端构建
+# 4/6 Frontend build
 $node = Get-Command node -ErrorAction SilentlyContinue
 $npm = Get-Command npm -ErrorAction SilentlyContinue
 if (-not $node -or -not $npm) {
-    Write-Host "[ERROR] 未找到 Node.js/npm。请安装 Node.js 20+（nodejs.org）后重跑本脚本。" -ForegroundColor Red
+    Write-Host "[ERROR] Node.js/npm not found. Install Node.js 20+ (nodejs.org) and re-run this script." -ForegroundColor Red
     exit 1
 }
-Write-Host "[4/6] 构建前端 (npm ci + build)..."
+Write-Host "[4/6] Building frontend (npm ci + build)..."
 Push-Location $frontend
 try {
     & npm ci
@@ -50,8 +53,8 @@ try {
     Pop-Location
 }
 
-# 5/6 迁移 + 初始 admin（幂等）
-Write-Host "[5/6] 数据库迁移 + 初始 admin..."
+# 5/6 Migrations + initial admin (idempotent)
+Write-Host "[5/6] DB migration + initial admin..."
 Push-Location $backend
 try {
     & $venvPy -m alembic upgrade head
@@ -60,7 +63,7 @@ try {
     Pop-Location
 }
 
-# 6/6 完成
-Write-Host "[6/6] 部署完成!"
-Write-Host "  启动: 双击 deploy\windows\start.bat（默认端口 8000，可改 start.bat 中 --port）"
-Write-Host "  访问: http://localhost:8000  账号 admin / lims-admin-1"
+# 6/6 Done
+Write-Host "[6/6] Setup complete!"
+Write-Host "  Start: double-click deploy\windows\start.bat (default port 8000, edit --port in start.bat to change)"
+Write-Host "  Open: http://localhost:8000   login: admin / lims-admin-1"
