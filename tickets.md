@@ -85,3 +85,10 @@ Resolution: 根因: T-009 用 perl -pi -e 's/.../$root = .../' 替换时，替�
 Status: done
 
 - [x] 第 8 行恢复 $root 前缀（perl 替换回归）；mock 环境真跑 setup.ps1 全分支验证（happy path 6 步 EXIT 0 / Python 缺失报错 / venv 不存在建分支）
+
+## T-011 修复: pip install backend 打包失败 + setup.ps1 静默吞错误报成功
+Resolution: 根因: ①backend/ 含 app/ 与 alembic/ 两个顶层目录，pip install backend 触发 setuptools flat-layout 自动发现报 "Multiple top-level packages discovered: ['app', 'alembic']" 而失败，导致 venv 里没装任何依赖（后续 alembic/bcrypt 全缺）；②setup.ps1 用 $ErrorActionPreference=Stop，但 PowerShell 的 Stop 对原生命令（pip/npm/alembic）的退出码无效——失败被静默吞掉，脚本照样走到 [6/6] Setup complete! 误报成功（用户真机看到 alembic/bcrypt 缺失却显示 Setup complete 即此因）；修复: ①pyproject.toml 加 [tool.setuptools.packages.find] include=["app*"]，显式只打包 app 及子包、排除 alembic/ 与 tests/；②setup.ps1 在 venv 创建/pip install/npm ci/npm build/alembic/seed 每步原生命令后检查 $LASTEXITCODE，非零即 Write-Host [ERROR] 并 exit 1（fail-fast）；验证: Linux 清缓存重建 venv 真跑 pip install backend 成功（rc=0，import app.main 7 路由、app.api/models/numbering/schemas 子包、bcrypt/alembic/fastapi 均可用；从 backend 目录跑 alembic upgrade head + app.seed 通过 created admin），pwsh 7.6.5 mock 验证 happy path 6 步全过 EXIT 0 + 让 pip 返回 1 时脚本停在 [3/6] 报 [ERROR] pip install failed exit 1 且不误报 Setup complete，CRLF/纯 ASCII 验证通过，pytest 36 全绿（TestCommand 真实执行）；真机待用户 git pull 后重跑复验
+Status: done
+
+- [x] pyproject.toml 加 [tool.setuptools.packages.find] include=["app*"]（排除 alembic/tests），pip install 真装验证通过
+- [x] setup.ps1 每个原生命令加 $LASTEXITCODE 检查 fail-fast（Stop 对原生退出码无效），mock 验证：happy path 6 步 EXIT 0、pip 失败停在 3/6 报错 exit 1 不误报 Setup complete
