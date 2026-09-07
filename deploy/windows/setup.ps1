@@ -1,7 +1,9 @@
 #Requires -Version 5.1
-# LIMS Windows one-time setup - T-007/T-008
+# LIMS Windows one-time setup - T-007/T-008/T-011
 # NOTE: pure ASCII on purpose. cmd/PowerShell 5.1 read scripts without BOM as
 # ANSI/GBK on zh-CN Windows; CJK chars get garbled and can corrupt parsing.
+# NOTE: $ErrorActionPreference=Stop does NOT catch native-command (pip/npm/...)
+# exit codes, so every step below checks $LASTEXITCODE and fails fast.
 # Usage: powershell -ExecutionPolicy Bypass -File deploy\windows\setup.ps1
 $ErrorActionPreference = "Stop"
 
@@ -31,11 +33,13 @@ if (Test-Path $venvPy) {
 } else {
     Write-Host "[2/6] Creating venv..."
     & $pyCmd -m venv (Join-Path $backend ".venv")
+    if ($LASTEXITCODE -ne 0) { Write-Host "[ERROR] venv creation failed (exit $LASTEXITCODE)." -ForegroundColor Red; exit 1 }
 }
 
 # 3/6 Backend deps
 Write-Host "[3/6] Installing backend deps..."
 & $venvPy -m pip install --disable-pip-version-check $backend
+if ($LASTEXITCODE -ne 0) { Write-Host "[ERROR] pip install failed (exit $LASTEXITCODE). See output above." -ForegroundColor Red; exit 1 }
 
 # 4/6 Frontend build
 $node = Get-Command node -ErrorAction SilentlyContinue
@@ -48,7 +52,9 @@ Write-Host "[4/6] Building frontend (npm ci + build)..."
 Push-Location $frontend
 try {
     & npm ci
+    if ($LASTEXITCODE -ne 0) { Write-Host "[ERROR] npm ci failed (exit $LASTEXITCODE)." -ForegroundColor Red; exit 1 }
     & npm run build
+    if ($LASTEXITCODE -ne 0) { Write-Host "[ERROR] npm run build failed (exit $LASTEXITCODE)." -ForegroundColor Red; exit 1 }
 } finally {
     Pop-Location
 }
@@ -58,7 +64,9 @@ Write-Host "[5/6] DB migration + initial admin..."
 Push-Location $backend
 try {
     & $venvPy -m alembic upgrade head
+    if ($LASTEXITCODE -ne 0) { Write-Host "[ERROR] alembic upgrade failed (exit $LASTEXITCODE)." -ForegroundColor Red; exit 1 }
     & $venvPy -m app.seed
+    if ($LASTEXITCODE -ne 0) { Write-Host "[ERROR] app.seed failed (exit $LASTEXITCODE)." -ForegroundColor Red; exit 1 }
 } finally {
     Pop-Location
 }

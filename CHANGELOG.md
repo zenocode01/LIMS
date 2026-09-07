@@ -2,6 +2,8 @@
 
 ## [未发布]
 
+**修复: pip install backend 打包失败 + setup.ps1 静默吞错误**（T-011）：根因: ①backend/ 含 app/ 与 alembic/ 两个顶层目录，setuptools flat-layout 自动发现报 "Multiple top-level packages"，pip install 失败 → venv 未装任何依赖（alembic/bcrypt 缺失）；②setup.ps1 的 $ErrorActionPreference=Stop 对原生命令退出码无效，失败被静默吞掉误报 "Setup complete!"；修复: pyproject.toml 加 [tool.setuptools.packages.find] include=["app*"]（排除 alembic/tests），setup.ps1 每步原生命令后检查 $LASTEXITCODE 并 fail-fast 报 [ERROR]；验证: Linux 重建 venv 真跑 pip install 成功（import app.main 7 路由/子包/bcrypt/alembic 均可用，alembic upgrade+seed 通过），pwsh mock 验证 happy path 6 步 EXIT 0 + pip 失败停在 3/6 报 [ERROR] exit 1 不误报成功，CRLF/纯 ASCII 通过，pytest 36 全绿；真机待 git pull 后重跑复验
+
 **修复: setup.ps1 第8行丢失 $root 变量**（T-010）：根因: T-009 用 perl -pi 替换时替换串中的 $root 被 perl 当变量展开成空，第 8 行退化为「 = Split-Path ...」（PowerShell 语法合法但运行时报 "term '=' not recognized"，ParseFile 抓不到）；修复: 第 8 行恢复 $root 前缀（改用 edit 精确替换）；验证: pwsh 7.6.5 mock 环境真跑——happy path 6 步全过 EXIT 0、Python 缺失干净报错 exit 1、venv 不存在正确走创建分支，路径解析 root/backend/frontend 均正确，CRLF/纯 ASCII 验证通过，pytest 36 全绿；真机待 git pull 后重跑复验
 
 **修复: setup.ps1 Split-Path 参数在 PS 5.1 非法**（T-009）：根因: `Split-Path $PSScriptRoot -Parent -Parent` 中 -Parent 在 Windows PowerShell 5.1 是 switch 参数不可叠加（ParameterAlreadyBound，真机报错），PS7 则要求 -Parent 2；修复: 第 8 行改嵌套写法 `Split-Path (Split-Path $PSScriptRoot -Parent) -Parent`（5.1/7 双兼容）；验证: 替换后 CRLF/纯 ASCII 验证通过，全脚本逐行人工审查（无 pwsh 环境），pytest 36 全绿；真机待 git pull 后重跑复验
