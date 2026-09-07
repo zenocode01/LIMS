@@ -5,7 +5,7 @@
 # Usage: powershell -ExecutionPolicy Bypass -File deploy\windows\setup.ps1
 $ErrorActionPreference = "Stop"
 
- = Split-Path (Split-Path $PSScriptRoot -Parent) -Parent
+$root = Split-Path (Split-Path $PSScriptRoot -Parent) -Parent
 $backend = Join-Path $root "backend"
 $frontend = Join-Path $root "frontend"
 Write-Host "== LIMS Windows setup (root: $root) =="

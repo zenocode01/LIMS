@@ -2,6 +2,8 @@
 
 ## [未发布]
 
+**修复: setup.ps1 第8行丢失 $root 变量**（T-010）：根因: T-009 用 perl -pi 替换时替换串中的 $root 被 perl 当变量展开成空，第 8 行退化为「 = Split-Path ...」（PowerShell 语法合法但运行时报 "term '=' not recognized"，ParseFile 抓不到）；修复: 第 8 行恢复 $root 前缀（改用 edit 精确替换）；验证: pwsh 7.6.5 mock 环境真跑——happy path 6 步全过 EXIT 0、Python 缺失干净报错 exit 1、venv 不存在正确走创建分支，路径解析 root/backend/frontend 均正确，CRLF/纯 ASCII 验证通过，pytest 36 全绿；真机待 git pull 后重跑复验
+
 **修复: setup.ps1 Split-Path 参数在 PS 5.1 非法**（T-009）：根因: `Split-Path $PSScriptRoot -Parent -Parent` 中 -Parent 在 Windows PowerShell 5.1 是 switch 参数不可叠加（ParameterAlreadyBound，真机报错），PS7 则要求 -Parent 2；修复: 第 8 行改嵌套写法 `Split-Path (Split-Path $PSScriptRoot -Parent) -Parent`（5.1/7 双兼容）；验证: 替换后 CRLF/纯 ASCII 验证通过，全脚本逐行人工审查（无 pwsh 环境），pytest 36 全绿；真机待 git pull 后重跑复验
 
 **修复: Windows 脚本中文编码 GBK 乱码**（T-008）：根因: setup.ps1/start.bat 含 UTF-8（无 BOM）中文，中文 Windows 的 cmd/PowerShell 5.1 按 ANSI/GBK 解析 → 输出乱码（真机报「涓嶅瓨鍦」），且 UTF-8 字节被当 GBK 双字节字符可能吞掉 ASCII 破坏语法；修复: 两脚本重写为纯 ASCII（英文提示，保留 CRLF），start.bat venv 缺失错误改为输出实际检查路径 + setup 命令；验证: 非 ASCII 字符扫描为 0 + CRLF 验证通过，pytest 36 全绿；Windows 真机待重跑 setup.ps1 复验
