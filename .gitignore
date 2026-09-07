@@ -8,3 +8,16 @@ __pycache__/
 venv/
 .DS_Store
 *.log
+
+# Python
+.venv/
+*.egg-info/
+.pytest_cache/
+*.db
+
+# Node
+node_modules/
+dist/
+
+# 本地数据库备份
+deploy-backup/
