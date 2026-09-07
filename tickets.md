@@ -73,3 +73,9 @@ Resolution: 根因: setup.ps1/start.bat 以 UTF-8(无 BOM) 写中文，中文 Wi
 Status: done
 
 - [x] setup.ps1/start.bat 重写为纯 ASCII（英文提示）+ CRLF；start.bat 错误信息输出实际检查路径与 setup 命令
+
+## T-009 修复: setup.ps1 Split-Path -Parent -Parent 在 PS 5.1 非法
+Resolution: 根因: setup.ps1 第 8 行 Split-Path $PSScriptRoot -Parent -Parent——Windows PowerShell 5.1 的 -Parent 是 switch 参数不可叠加（真机报 ParameterAlreadyBound/ParameterAlreadyBound,Microsoft.PowerShell.Commands.SplitPathCommand），PS7 中 -Parent 改为 int 需 -Parent 2，两种写法都错；修复: 改嵌套写法 Split-Path (Split-Path $PSScriptRoot -Parent) -Parent（PS 5.1 与 PS7 双兼容的标准 idiom）；验证: perl 替换保留 CRLF，file 确认 ASCII+CRLF，非 ASCII 扫描为 0，全脚本逐行人工审查（本机无 pwsh：#Requires/Get-Command/$LASTEXITCODE/Push-Pop 配对/原生命令 2>$null/bat if 块 %cd% 解析均过），pytest 36 全绿（TestCommand 真实执行）；真机复验待用户 git pull 后重跑 setup.ps1
+Status: done
+
+- [x] 第 8 行改为嵌套写法 Split-Path (Split-Path $PSScriptRoot -Parent) -Parent（PS 5.1/PS7 双兼容），CRLF/纯 ASCII 验证通过

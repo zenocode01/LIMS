@@ -111,3 +111,18 @@
 2026-09-07 07:55:14 | resolve | T-008 (修复: Windows 脚本中文编码导致 GBK 乱码/解析风险)
 2026-09-07 07:55:36 | branch | merged vibe/T-008 -> main and deleted
 2026-09-07 07:55:36 | close | T-008 (修复: Windows 脚本中文编码导致 GBK 乱码/解析风险)
+2026-09-07 08:05:53 | add | T-009 (修复: setup.ps1 Split-Path -Parent -Parent 在 PS 5.1 非法)
+2026-09-07 08:05:53 | branch | created vibe/T-009 (from main)
+2026-09-07 08:05:53 | begin | T-009 (修复: setup.ps1 Split-Path -Parent -Parent 在 PS 5.1 非法)
+2026-09-07 08:12:33 | phase | analyze -> plan
+2026-09-07 08:12:34 | phase | plan -> implement
+2026-09-07 08:13:17 | phase | implement -> verify
+2026-09-07 08:13:47 | verify | verify -> verify exit=0 [cd backend && python3 -m pytest] 证据: /home/dkd/projects/lims/.vibe/evidence/20260907-081332-verify-verify.txt
+2026-09-07 08:13:47 | phase | verify -> verify --green
+2026-09-07 08:14:03 | verify | verify -> review exit=0 [cd backend && python3 -m pytest] 证据: /home/dkd/projects/lims/.vibe/evidence/20260907-081347-verify-review.txt
+2026-09-07 08:14:03 | auto-sync | in-progress -> review (Phase=review)
+2026-09-07 08:14:03 | phase | verify -> review --green
+2026-09-07 08:14:03 | phase | review -> commit --pass
+2026-09-07 08:14:40 | resolve | T-009 (修复: setup.ps1 Split-Path -Parent -Parent 在 PS 5.1 非法)
+2026-09-07 08:14:56 | branch | merged vibe/T-009 -> main and deleted
+2026-09-07 08:14:56 | close | T-009 (修复: setup.ps1 Split-Path -Parent -Parent 在 PS 5.1 非法)
