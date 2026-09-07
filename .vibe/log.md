@@ -79,3 +79,20 @@
 2026-09-07 02:40:04 | resolve | T-006 (P1-实现：基础底座)
 2026-09-07 02:40:39 | branch | merged vibe/T-006 -> main and deleted
 2026-09-07 02:40:39 | close | T-006 (P1-实现：基础底座)
+2026-09-07 03:30:05 | add | T-007 (Windows 原生部署支持)
+2026-09-07 03:32:13 | branch | created vibe/T-007 (from main)
+2026-09-07 03:32:13 | begin | T-007 (Windows 原生部署支持)
+2026-09-07 03:32:24 | gloss | add Windows 原生部署
+2026-09-07 03:32:24 | gloss | add SPA 回退
+2026-09-07 03:36:18 | phase | analyze -> plan
+2026-09-07 03:44:10 | phase | plan -> implement
+2026-09-07 03:48:37 | phase | implement -> verify
+2026-09-07 03:49:25 | verify | verify -> verify exit=0 [cd backend && python3 -m pytest] 证据: /home/dkd/projects/lims/.vibe/evidence/20260907-034910-verify-verify.txt
+2026-09-07 03:49:25 | phase | verify -> verify --green
+2026-09-07 03:49:51 | verify | verify -> review exit=0 [cd backend && python3 -m pytest] 证据: /home/dkd/projects/lims/.vibe/evidence/20260907-034936-verify-review.txt
+2026-09-07 03:49:51 | auto-sync | in-progress -> review (Phase=review)
+2026-09-07 03:49:51 | phase | verify -> review --green
+2026-09-07 03:51:23 | phase | review -> commit --pass
+2026-09-07 03:56:25 | resolve | T-007 (Windows 原生部署支持)
+2026-09-07 03:56:46 | branch | merged vibe/T-007 -> main and deleted
+2026-09-07 03:56:46 | close | T-007 (Windows 原生部署支持)

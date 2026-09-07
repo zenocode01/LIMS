@@ -59,3 +59,11 @@ Status: done
 - [x] Task6 编号服务 v2 全格式
 - [x] Task7 前端骨架 + 登录页
 - [x] Task8 部署（docker compose + nginx）
+
+## T-007 Windows 原生部署支持
+Resolution: 根因: 目标 Windows 机器无法安装 Docker，现有 compose 链路不可用；修复: 后端 create_app(static_dir) 单进程托管前端 dist（/api 未命中 JSON 404/静态文件 FileResponse 直出/SPA 回退/is_relative_to 穿越守卫），新增 deploy/windows/setup.ps1(6 步幂等部署)+start.bat(双击启动)+.gitattributes(CRLF 强制)+README Windows 部署章节(含真机补跑清单)；附带: vite proxy 支持 LIMS_API_PROXY 环境变量覆盖；偏差: 实测 starlette 1.2 的 StaticFiles(html=True) 无 SPA 回退、GET-only catch-all 致未注册 API 非 GET 方法返 405，改用自写 catch-all + /api 全方法兜底路由；验证: pytest 36 全绿(存量 23+静态 13，.vibe/evidence 真实执行留痕)，npm run build 通过，8011 真 uvicorn 冒烟 5 项全过(首页/SPA 回退/静态文件/health/api 404)，file+check-attr 确认 CRLF 与 .gitattributes 生效；真 Windows 机补跑清单已随 README 交付(6 项待补跑)
+Status: done
+
+- [x] Task1 后端静态托管（config+main+test_static 13 用例，36 全绿）
+- [x] Task2 Windows 脚本（setup.ps1 + start.bat + .gitattributes CRLF）
+- [x] Task3 文档+冒烟（README Windows 章节 + 8011 冒烟 5 项 + vite proxy 可覆盖）

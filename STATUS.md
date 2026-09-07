@@ -8,7 +8,7 @@ Current Ticket:
 Domain: 实验室信息管理系统（LIMS），领域 EMC（电磁兼容）
 TestCommand: cd backend && python3 -m pytest
 BranchMode: auto
-术语表: 10 条 (docs/UBIQUITOUS_LANGUAGE.md)
+术语表: 12 条 (docs/UBIQUITOUS_LANGUAGE.md)
 
 ## 工单
 - [x] **T-001** 初始化工单工作台骨架 — done  ✓已记录修复
@@ -17,6 +17,7 @@ BranchMode: auto
 - [x] **T-004** 编号规则定稿+设计文档更新 — done  ✓已记录修复
 - [x] **T-005** P1-基础实现计划 — done  ✓已记录修复
 - [x] **T-006** P1-实现：基础底座 — done  ✓已记录修复
+- [x] **T-007** Windows 原生部署支持 — done  ✓已记录修复
 
 ## 阻塞
 (无)

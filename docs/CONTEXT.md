@@ -22,4 +22,4 @@ BranchMode: auto
 
 ## 当前目标
 
-T-006 P1-实现：基础底座 —— 8 任务全部完成（后端骨架/认证/RBAC/编号服务/前端登录/部署），冒烟通过，待关单。
+T-007 Windows 原生部署支持：目标 Windows 机器无 Docker，需原生部署。方案已分节批准（单进程 FastAPI 托管前端 dist + setup.ps1/start.bat）。
