@@ -2,6 +2,8 @@
 
 ## [未发布]
 
+**Windows 原生部署支持**（T-007）：根因: 目标 Windows 机器无法安装 Docker，现有 compose 链路不可用；修复: 后端 create_app(static_dir) 单进程托管前端 dist（/api 未命中 JSON 404/静态文件直出/SPA 回退/穿越守卫），新增 deploy/windows/setup.ps1(6 步幂等部署)+start.bat(双击启动)+.gitattributes(CRLF 强制)+README Windows 部署章节(含真机补跑清单)；附带: vite proxy 支持 LIMS_API_PROXY 覆盖；偏差: 发现 starlette 1.2 html=True 无 SPA 回退+catch-all 致非 GET 未注册 API 返 405，增 /api 全方法兑底路由；验证: pytest 36 全绿(23+13)，npm build 通过，8011 真 uvicorn 冒烟 5 项全过，CRLF/check-attr 验证；真 Windows 机补跑清单已随 README 交付
+
 **P1-实现：基础底座**（T-006）：根因: P1 基础计划已批准，需落地基础底座；修复: 后端骨架(FastAPI+SQLAlchemy+Alembic 0001/0002)+bcrypt 密码+JWT+登录/me+三角色 RBAC API 层强制+用户管理+幂等 seed+编号服务 v2 全格式(委托/报告/样品/任务等)+前端骨架(React19+Vite+antd 登录页/路由守卫/apiFetch Bearer)+部署(Dockerfile×2/compose/nginx/README)；偏差: 本机无 docker 冒烟改 uvicorn+vite 直跑(容器链路待补跑)、alembic upgrade 由构建期移到运行时、TestCommand 用 python3(本机无 python 别名)；验证: 后端 pytest 23 全绿, 前端 tsc+vite build 通过, 冒烟 health/登录/静态页//api 代理全过
 
 **P1-基础实现计划**（T-005）：根因: 设计已批准需拆实现计划；修复: P1-基础计划(8任务: 骨架/User+alembic/安全/登录/RBAC/编号v2/前端登录/compose部署)，自审修正6处(文件清单/cwd/conftest导入/接口签名/import位置/Dockerfile glob)；验证: 规格覆盖M1全部, 无占位符, 命名一致

@@ -9,6 +9,7 @@ class Settings(BaseSettings):
     database_url: str = "sqlite:///./lims.db"
     jwt_secret: str = "change-me"
     jwt_expire_min: int = 720
+    static_dir: str | None = None
 
 
 @lru_cache
