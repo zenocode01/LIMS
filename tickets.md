@@ -92,3 +92,11 @@ Status: done
 
 - [x] pyproject.toml 加 [tool.setuptools.packages.find] include=["app*"]（排除 alembic/tests），pip install 真装验证通过
 - [x] setup.ps1 每个原生命令加 $LASTEXITCODE 检查 fail-fast（Stop 对原生退出码无效），mock 验证：happy path 6 步 EXIT 0、pip 失败停在 3/6 报错 exit 1 不误报 Setup complete
+
+## T-012 Windows start/stop 服务脚本（后台启动 + 端口精准停止）
+Resolution: 根因: 需要 Windows 服务化启停——原 start.bat 只在前台跑（窗口常驻），没有干净的停止手段；修复: ①start.bat 升级后台模式：start "LIMS-server" /MIN cmd /c 以最小化窗口跑 uvicorn，stdout/stderr 重定向追加到 backend\lims.log，启动后 timeout 2s + netstat 检查 PORT 是否 LISTENING 并提示运行地址/日志/停止方式；②新增 stop.bat：for /f tokens=5 解析 netstat -ano 找 PORT 监听行取 PID，taskkill /F /PID 精准杀（按端口，不误伤其他 python/node 程序），有杀到提示 stopped、否则提示 not running；附带: README Windows 章节同步（启停说明 + start/stop 顶部 PORT 变量需一致）；验证: 两脚本纯 ASCII + CRLF（file + 非 ASCII 扫描），逐行审查批处理语法——重点修掉 if 块内 echo 行含 ( ) 会提前闭合代码块的陷阱（已去掉所有块内括号），核对 netstat|findstr 管道、for /f 转义 ^|、taskkill 退出码判断；pytest 36 全绿（TestCommand 真实执行）；真机待用户 git pull 后双击 start.bat/stop.bat 复验（netstat/taskkill 为 Windows 命令，Linux 无法实跑，靠语法审查）
+Status: done
+
+- [x] start.bat 升级后台模式（最小化窗口 + lims.log 日志 + 启动后端口状态检查）
+- [x] stop.bat 新增（netstat 找 PORT 监听 PID + taskkill 精准杀，不误伤其他程序）
+- [x] 两脚本纯 ASCII + CRLF；逐行审查修掉 if 块内 echo 括号陷阱；README 同步

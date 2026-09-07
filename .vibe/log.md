@@ -156,3 +156,18 @@
 2026-09-07 09:10:18 | resolve | T-011 (修复: pip install backend 打包失败 + setup.ps1 静默吞错误报成功)
 2026-09-07 09:10:33 | branch | merged vibe/T-011 -> main and deleted
 2026-09-07 09:10:33 | close | T-011 (修复: pip install backend 打包失败 + setup.ps1 静默吞错误报成功)
+2026-09-07 09:31:40 | add | T-012 (Windows start/stop 服务脚本（后台启动 + 端口精准停止）)
+2026-09-07 09:31:40 | branch | created vibe/T-012 (from main)
+2026-09-07 09:31:40 | begin | T-012 (Windows start/stop 服务脚本（后台启动 + 端口精准停止）)
+2026-09-07 09:45:16 | phase | analyze -> plan
+2026-09-07 09:45:16 | phase | plan -> implement
+2026-09-07 09:45:17 | phase | implement -> verify
+2026-09-07 09:45:47 | verify | verify -> verify exit=0 [cd backend && python3 -m pytest] 证据: /home/dkd/projects/lims/.vibe/evidence/20260907-094532-verify-verify.txt
+2026-09-07 09:45:47 | phase | verify -> verify --green
+2026-09-07 09:46:03 | verify | verify -> review exit=0 [cd backend && python3 -m pytest] 证据: /home/dkd/projects/lims/.vibe/evidence/20260907-094548-verify-review.txt
+2026-09-07 09:46:03 | auto-sync | in-progress -> review (Phase=review)
+2026-09-07 09:46:03 | phase | verify -> review --green
+2026-09-07 09:46:03 | phase | review -> commit --pass
+2026-09-07 09:47:03 | resolve | T-012 (Windows start/stop 服务脚本（后台启动 + 端口精准停止）)
+2026-09-07 09:55:15 | branch | merged vibe/T-012 -> main and deleted
+2026-09-07 09:55:15 | close | T-012 (Windows start/stop 服务脚本（后台启动 + 端口精准停止）)
