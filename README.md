@@ -79,16 +79,16 @@ powershell -ExecutionPolicy Bypass -File deploy\windows\setup.ps1
 
 自动完成：创建 `backend\.venv` → 装后端依赖 → `npm ci && npm run build` 构建前端 → 数据库迁移 → 创建 admin。可重复执行（幂等）。
 
-### 日常启动
+### 日常启动 / 停止
 
-双击 `deploy\windows\start.bat`，然后浏览器打开 `http://localhost:8000`。
+双击 `deploy\windows\start.bat`（后台最小化窗口运行，日志写 `backend\lims.log`），然后浏览器打开 `http://localhost:8000`。停止双击 `deploy\windows\stop.bat`（按端口精准杀进程，不误伤其他程序）。
 
 默认账号：`admin` / `lims-admin-1`
 
 ### 注意
 
 - **防火墙**：uvicorn 首次启动 Windows 防火墙会询问是否允许联网——选「允许」（局域网其他机器访问的前提）。
-- **端口**：默认 8000；改端口编辑 `start.bat` 中的 `--port` 行。
+- **端口**：默认 8000；改端口时 `start.bat` 与 `stop.bat` 顶部的 `PORT` 变量要一致。
 - **执行策略**：若 `setup.ps1` 被执行策略拦截，用上面的 `-ExecutionPolicy Bypass` 命令运行。
 - **数据库**：默认 SQLite（`backend\lims.db`）；PostgreSQL 为 docker 路径使用。
 
