@@ -2,6 +2,8 @@
 
 ## [未发布]
 
+**修复: setup.ps1 Split-Path 参数在 PS 5.1 非法**（T-009）：根因: `Split-Path $PSScriptRoot -Parent -Parent` 中 -Parent 在 Windows PowerShell 5.1 是 switch 参数不可叠加（ParameterAlreadyBound，真机报错），PS7 则要求 -Parent 2；修复: 第 8 行改嵌套写法 `Split-Path (Split-Path $PSScriptRoot -Parent) -Parent`（5.1/7 双兼容）；验证: 替换后 CRLF/纯 ASCII 验证通过，全脚本逐行人工审查（无 pwsh 环境），pytest 36 全绿；真机待 git pull 后重跑复验
+
 **修复: Windows 脚本中文编码 GBK 乱码**（T-008）：根因: setup.ps1/start.bat 含 UTF-8（无 BOM）中文，中文 Windows 的 cmd/PowerShell 5.1 按 ANSI/GBK 解析 → 输出乱码（真机报「涓嶅瓨鍦」），且 UTF-8 字节被当 GBK 双字节字符可能吞掉 ASCII 破坏语法；修复: 两脚本重写为纯 ASCII（英文提示，保留 CRLF），start.bat venv 缺失错误改为输出实际检查路径 + setup 命令；验证: 非 ASCII 字符扫描为 0 + CRLF 验证通过，pytest 36 全绿；Windows 真机待重跑 setup.ps1 复验
 
 **Windows 原生部署支持**（T-007）：根因: 目标 Windows 机器无法安装 Docker，现有 compose 链路不可用；修复: 后端 create_app(static_dir) 单进程托管前端 dist（/api 未命中 JSON 404/静态文件直出/SPA 回退/穿越守卫），新增 deploy/windows/setup.ps1(6 步幂等部署)+start.bat(双击启动)+.gitattributes(CRLF 强制)+README Windows 部署章节(含真机补跑清单)；附带: vite proxy 支持 LIMS_API_PROXY 覆盖；偏差: 发现 starlette 1.2 html=True 无 SPA 回退+catch-all 致非 GET 未注册 API 返 405，增 /api 全方法兑底路由；验证: pytest 36 全绿(23+13)，npm build 通过，8011 真 uvicorn 冒烟 5 项全过，CRLF/check-attr 验证；真 Windows 机补跑清单已随 README 交付
