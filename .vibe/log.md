@@ -77,3 +77,5 @@
 2026-09-04 09:42:34 | phase | verify -> review --green
 2026-09-04 09:42:34 | phase | review -> commit --pass
 2026-09-07 02:40:04 | resolve | T-006 (P1-实现：基础底座)
+2026-09-07 02:40:39 | branch | merged vibe/T-006 -> main and deleted
+2026-09-07 02:40:39 | close | T-006 (P1-实现：基础底座)

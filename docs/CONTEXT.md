@@ -4,8 +4,8 @@
 
 ## Status
 
-Phase: commit
-Current Ticket: T-006
+Phase: analyze
+Current Ticket: 
 Domain: 实验室信息管理系统（LIMS），领域 EMC（电磁兼容）
 
 ## 配置
