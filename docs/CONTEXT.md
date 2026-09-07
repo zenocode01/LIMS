@@ -10,7 +10,7 @@ Domain: 实验室信息管理系统（LIMS），领域 EMC（电磁兼容）
 
 ## 配置
 
-TestCommand:
+TestCommand: cd backend && python3 -m pytest
 BranchMode: auto
 
 > - `TestCommand:` 验证阶段真实执行的测试命令（如 `pytest` / `npm test`）。留空则 `--green` 退回自证 flag。
@@ -22,4 +22,4 @@ BranchMode: auto
 
 ## 当前目标
 
-（本次会话要完成什么。）
+T-006 P1-实现：基础底座 —— 8 任务全部完成（后端骨架/认证/RBAC/编号服务/前端登录/部署），冒烟通过，待关单。

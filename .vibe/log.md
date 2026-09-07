@@ -76,3 +76,4 @@
 2026-09-04 09:42:34 | auto-sync | in-progress -> review (Phase=review)
 2026-09-04 09:42:34 | phase | verify -> review --green
 2026-09-04 09:42:34 | phase | review -> commit --pass
+2026-09-07 02:40:04 | resolve | T-006 (P1-实现：基础底座)

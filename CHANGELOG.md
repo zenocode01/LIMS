@@ -2,6 +2,8 @@
 
 ## [未发布]
 
+**P1-实现：基础底座**（T-006）：根因: P1 基础计划已批准，需落地基础底座；修复: 后端骨架(FastAPI+SQLAlchemy+Alembic 0001/0002)+bcrypt 密码+JWT+登录/me+三角色 RBAC API 层强制+用户管理+幂等 seed+编号服务 v2 全格式(委托/报告/样品/任务等)+前端骨架(React19+Vite+antd 登录页/路由守卫/apiFetch Bearer)+部署(Dockerfile×2/compose/nginx/README)；偏差: 本机无 docker 冒烟改 uvicorn+vite 直跑(容器链路待补跑)、alembic upgrade 由构建期移到运行时、TestCommand 用 python3(本机无 python 别名)；验证: 后端 pytest 23 全绿, 前端 tsc+vite build 通过, 冒烟 health/登录/静态页//api 代理全过
+
 **P1-基础实现计划**（T-005）：根因: 设计已批准需拆实现计划；修复: P1-基础计划(8任务: 骨架/User+alembic/安全/登录/RBAC/编号v2/前端登录/compose部署)，自审修正6处(文件清单/cwd/conftest导入/接口签名/import位置/Dockerfile glob)；验证: 规格覆盖M1全部, 无占位符, 命名一致
 
 
