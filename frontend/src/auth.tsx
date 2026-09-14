@@ -83,9 +83,9 @@ function ShellLayout({
   const items = [
     { key: 'workbench', label: '工作台', to: '/', roles: null as string[] | null },
     { key: 'customers', label: '客户管理', to: '/customers', roles: ['business', 'admin'] },
+    { key: 'quotations', label: '报价管理', to: '/quotations', roles: ['business', 'admin'] },
   ]
   const soon = [
-    { key: 'quotations', label: '报价管理' },
     { key: 'entrustments', label: '委托管理' },
     { key: 'samples', label: '样品管理' },
   ]
@@ -189,6 +189,13 @@ function NavIcon({ name }: { name: string }) {
     strokeLinejoin: 'round' as const,
   }
   switch (name) {
+    case 'quotations':
+      return (
+        <svg {...common}>
+          <path d="M6 2.8h9L20 7.8v13a1.2 1.2 0 0 1-1.2 1.2H6A1.2 1.2 0 0 1 4.8 20.8V4A1.2 1.2 0 0 1 6 2.8Z" />
+          <path d="M8.5 12h7M8.5 15.5h7M8.5 8.5h3" />
+        </svg>
+      )
     case 'workbench':
       return (
         <svg {...common}>
@@ -196,13 +203,6 @@ function NavIcon({ name }: { name: string }) {
           <rect x="13" y="3" width="8" height="5" rx="2" />
           <rect x="13" y="10" width="8" height="11" rx="2" />
           <rect x="3" y="13" width="8" height="8" rx="2" />
-        </svg>
-      )
-    case 'quotations':
-      return (
-        <svg {...common}>
-          <path d="M6 2.8h9L20 7.8v13a1.2 1.2 0 0 1-1.2 1.2H6A1.2 1.2 0 0 1 4.8 20.8V4A1.2 1.2 0 0 1 6 2.8Z" />
-          <path d="M8.5 12h7M8.5 15.5h7M8.5 8.5h3" />
         </svg>
       )
     case 'entrustments':

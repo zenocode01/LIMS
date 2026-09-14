@@ -36,6 +36,8 @@ export default function LoginPage() {
             stroke="#2FE3B0"
             strokeWidth="2.4"
             opacity="0.85"
+            pathLength={1}
+            className="trace-path"
           />
         </svg>
       </div>

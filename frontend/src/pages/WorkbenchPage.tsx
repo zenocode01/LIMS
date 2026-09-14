@@ -91,17 +91,19 @@ export default function WorkbenchPage() {
         </span>
       </div>
 
-      <div className="actions">
+      <div className="actions stagger">
         {me?.role !== 'engineer' && (
           <div className="act primary" onClick={() => nav('/customers', { state: { create: true } })}>
             {Plus}
             新建客户
           </div>
         )}
-        <div className="act ghost" title="模块即将上线">
-          {Plus}
-          新建报价
-        </div>
+        {me?.role === 'business' && (
+          <div className="act ghost" onClick={() => nav('/quotations', { state: { create: true } })}>
+            {Plus}
+            新建报价
+          </div>
+        )}
         <div className="act ghost" title="模块即将上线">
           {Plus}
           新建委托
@@ -111,7 +113,7 @@ export default function WorkbenchPage() {
         </div>
       </div>
 
-      <div className="stats">
+      <div className="stats stagger">
         <div className="stat">
           <div className="k">
             本月委托 <span className="demo">示例</span>
@@ -143,7 +145,7 @@ export default function WorkbenchPage() {
         </div>
       </div>
 
-      <div className="cols">
+      <div className="cols stagger">
         <div className="panel">
           <div className="head">
             <b>最近客户</b>

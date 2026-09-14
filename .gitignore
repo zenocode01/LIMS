@@ -21,3 +21,6 @@ dist/
 
 # 本地数据库备份
 deploy-backup/
+
+# 动效参考包（已装技能，不入库）
+docs/测试&BUGS/motion-web-main.zip

@@ -25,6 +25,61 @@ body {
   background: var(--canvas);
 }
 
+/* ─────────────── 动效层（产品型克制派：入场一次，之后静止） ─────────────── */
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+.stagger > * {
+  animation: rise 0.45s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+.stagger > *:nth-child(1) {
+  animation-delay: 0.03s;
+}
+.stagger > *:nth-child(2) {
+  animation-delay: 0.09s;
+}
+.stagger > *:nth-child(3) {
+  animation-delay: 0.15s;
+}
+.stagger > *:nth-child(4) {
+  animation-delay: 0.21s;
+}
+.stagger > *:nth-child(5) {
+  animation-delay: 0.27s;
+}
+.rail-item,
+.act,
+.row,
+.todo,
+.rail-foot .out,
+.topbar .bell {
+  transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease,
+    box-shadow 0.15s ease, transform 0.15s ease;
+}
+.act.primary:hover {
+  transform: translateY(-1px);
+}
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  .login-wave path.trace-path {
+    stroke-dashoffset: 0;
+    animation: none;
+  }
+}
+
 /* ─────────────── 登录页 ─────────────── */
 .login-page {
   position: fixed;
@@ -66,6 +121,17 @@ body {
 }
 .login-wave path {
   filter: drop-shadow(0 0 5px rgba(47, 227, 176, 0.8));
+}
+/* 签名动效：信号线 draw-on（一次性入场，pathLength 归一化） */
+.login-wave path.trace-path {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  animation: trace-draw 1.8s cubic-bezier(0.33, 1, 0.68, 1) 0.15s forwards;
+}
+@keyframes trace-draw {
+  to {
+    stroke-dashoffset: 0;
+  }
 }
 .login-brand {
   position: relative;
