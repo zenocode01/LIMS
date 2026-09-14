@@ -199,3 +199,5 @@
 2026-09-14 03:45:14 | phase | verify -> review --green
 2026-09-14 03:45:57 | resolve | T-014 (P2-报价管理（报价单状态机+明细，首屏打样延续）)
 2026-09-14 03:46:14 | phase | review -> commit --pass
+2026-09-14 03:47:03 | branch | merged vibe/T-014 -> main and deleted
+2026-09-14 03:47:03 | close | T-014 (P2-报价管理（报价单状态机+明细，首屏打样延续）)

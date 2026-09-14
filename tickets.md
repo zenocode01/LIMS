@@ -121,7 +121,7 @@ Status: done
 
 ## T-014 P2-报价管理（报价单状态机+明细，首屏打样延续）
 Resolution: 根因: 主流程起点建报价单未落地；修复: ①后端 Quotation/QuotationItem+状态机(草稿→发出→已落单→已转委托/取消, 非法迁移409)+/api/quotations CRUD+动作端点(RBAC: 读业务+管理, 写业务, 工程师403)+Q-YYYYMMDD流水编号+搜索/筛选+alembic 0004；②前端 报价列表页+详情Drawer+建单编辑弹窗(动态明细行+实时合计)+侧栏/工作台入口；③动效层 登录信号线draw-on/stagger入场/reduced-motion兜底；验证: pytest 45 全绿(test_quotes 5 用例), tsc+build 通过, Playwright 端到端全过(建单/发出/落单/取消/筛选/403/只读), 截图 real2-*.png; 附带修复 payload 漏 customer_id bug
-Status: review
+Status: done
 
 > 范围（2026-09-14）: 报价单 = 客户 + 明细行（项目名称×数量×单价），编号 Q-YYYYMMDD-流水（no_quote）。
 > 状态机: 草稿 →（发出）已发出 →（客户接受=落单）已落单 →（转委托）已转委托（T-015 接通）；草稿/已发出 → 已取消。
