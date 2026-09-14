@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>LIMS 登录设计稿</title>
+<style>
+  :root{
+    --ink:#16233B; --ink2:#5A6B85; --ink3:#8A99B0;
+    --canvas:#F4F6F9; --surface:#FFFFFF; --line:#E7EBF1;
+    --signal:#2458F5; --signal-soft:#EAF0FF;
+    --trace:#2FE3B0; --navy:#0B1424;
+    --sans:-apple-system,"PingFang SC","Hiragino Sans GB","Microsoft YaHei","Segoe UI",sans-serif;
+    --mono:ui-monospace,"SF Mono","JetBrains Mono",Consolas,"Courier New",monospace;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:var(--sans);color:var(--ink);background:var(--navy);height:100vh;overflow:hidden}
+  .bg{position:fixed;inset:0;
+    background:
+      radial-gradient(900px 500px at 78% 8%, rgba(36,88,245,.22), transparent 60%),
+      radial-gradient(700px 420px at 15% 95%, rgba(22,199,154,.10), transparent 60%),
+      linear-gradient(160deg,#0B1424 0%,#0E1B33 55%,#0C1830 100%);
+  }
+  .grid{position:fixed;inset:0;opacity:.5;
+    background:
+      repeating-linear-gradient(0deg, rgba(255,255,255,.035) 0 1px, transparent 1px 28px),
+      repeating-linear-gradient(90deg, rgba(255,255,255,.035) 0 1px, transparent 1px 28px),
+      repeating-linear-gradient(0deg, rgba(255,255,255,.06) 0 1px, transparent 1px 140px),
+      repeating-linear-gradient(90deg, rgba(255,255,255,.06) 0 1px, transparent 1px 140px);
+  }
+  .wave{position:fixed;left:0;right:0;top:50%;height:220px;transform:translateY(-50%);opacity:.9}
+  .wave svg{width:100%;height:100%}
+  .wrap{position:relative;z-index:2;display:grid;grid-template-columns:1.2fr 1fr;height:100vh;align-items:center;padding:0 72px}
+  .brand .eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.32em;color:var(--trace);margin-bottom:22px}
+  .brand h1{font-size:76px;font-weight:800;letter-spacing:-.02em;color:#fff;line-height:1}
+  .brand h1 small{font-family:var(--mono);font-size:14px;font-weight:400;color:var(--ink3);letter-spacing:.2em;vertical-align:super}
+  .brand .rule{width:120px;height:3px;margin:26px 0 22px;border-radius:2px;
+    background:linear-gradient(90deg,var(--trace),rgba(47,227,176,0));}
+  .brand p{font-size:17px;color:#B9C6DC;letter-spacing:.04em}
+  .brand .foot{position:absolute;left:72px;bottom:28px;font-family:var(--mono);font-size:11px;color:#4E5F7D;letter-spacing:.12em}
+  .card{background:rgba(255,255,255,.97);border-radius:18px;padding:44px 40px 36px;width:100%;max-width:400px;justify-self:end;
+    box-shadow:0 24px 80px rgba(2,8,23,.5), 0 0 0 1px rgba(255,255,255,.06);}
+  .card h2{font-size:21px;font-weight:700;margin-bottom:6px}
+  .card .sub{font-size:13px;color:var(--ink2);margin-bottom:30px}
+  .field{margin-bottom:18px}
+  .field label{display:block;font-size:13px;font-weight:600;color:var(--ink2);margin-bottom:8px}
+  .field .box{display:flex;align-items:center;gap:10px;border:1px solid var(--line);border-radius:10px;padding:0 14px;height:46px;background:#FBFCFE;transition:border .15s, box-shadow .15s}
+  .field .box:focus-within{border-color:var(--signal);box-shadow:0 0 0 3px rgba(36,88,245,.12);background:#fff}
+  .field input{border:0;outline:0;flex:1;font-size:14.5px;font-family:var(--sans);color:var(--ink);background:transparent}
+  .field input::placeholder{color:var(--ink3)}
+  .field svg{flex:none;color:var(--ink3)}
+  .btn{width:100%;height:48px;border:0;border-radius:10px;background:var(--signal);color:#fff;font-size:15.5px;font-weight:600;font-family:var(--sans);letter-spacing:.06em;cursor:pointer;margin-top:8px;box-shadow:0 8px 20px rgba(36,88,245,.32)}
+  .card .note{margin-top:22px;padding-top:18px;border-top:1px solid var(--line);font-size:12px;color:var(--ink3);display:flex;justify-content:space-between}
+  .card .note b{font-family:var(--mono);font-weight:500}
+</style>
+</head>
+<body>
+<div class="bg"></div>
+<div class="grid"></div>
+<div class="wave">
+  <svg viewBox="0 0 1440 220" preserveAspectRatio="none">
+    <defs>
+      <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+        <feGaussianBlur stdDeviation="4" result="b"/>
+        <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+      </filter>
+    </defs>
+    <path d="M0 110 H240 V58 H380 V150 H520 V110 H700 V84 H840 V142 H980 V110 H1180 V66 H1320 V110 H1440"
+      fill="none" stroke="#2FE3B0" stroke-width="2.4" filter="url(#glow)" opacity=".85"/>
+  </svg>
+</div>
+<div class="wrap">
+  <div class="brand">
+    <div class="eyebrow">EMC · ELECTROMAGNETIC COMPATIBILITY</div>
+    <h1>LIMS <small>v0.2</small></h1>
+    <div class="rule"></div>
+    <p>电磁兼容实验室 · 信息工作台</p>
+  </div>
+  <div class="card">
+    <h2>登录工作台</h2>
+    <div class="sub">使用分配的账号进入本实验室系统</div>
+    <div class="field">
+      <label>用户名</label>
+      <div class="box">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="8" r="4"/><path d="M4 20c1.6-3.4 4.6-5 8-5s6.4 1.6 8 5"/></svg>
+        <input placeholder="请输入用户名" value="zhangyw">
+      </div>
+    </div>
+    <div class="field">
+      <label>密码</label>
+      <div class="box">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="5" y="10" width="14" height="10" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>
+        <input type="password" placeholder="请输入密码" value="••••••••">
+      </div>
+    </div>
+    <button class="btn">登 录</button>
+    <div class="note"><span>受控环境 · 请勿外传账号</span><b>BUILD 2026.09.14</b></div>
+  </div>
+</div>
+<div class="brand foot">LIMS WORKBENCH · 本地部署</div>
+</body>
+</html>

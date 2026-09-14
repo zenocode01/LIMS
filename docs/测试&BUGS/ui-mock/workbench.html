@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>LIMS 工作台设计稿</title>
+<style>
+  :root{
+    --ink:#16233B; --ink2:#5A6B85; --ink3:#8A99B0;
+    --canvas:#F4F6F9; --surface:#FFFFFF; --line:#E7EBF1;
+    --signal:#2458F5; --signal-soft:#EAF0FF; --signal-ink:#1B3FAE;
+    --trace:#12B98A; --trace-soft:#E3F7F0;
+    --amber:#E8930C; --amber-soft:#FDF2DE;
+    --blue:#2458F5; --blue-soft:#EAF0FF;
+    --sans:-apple-system,"PingFang SC","Hiragino Sans GB","Microsoft YaHei","Segoe UI",sans-serif;
+    --mono:ui-monospace,"SF Mono","JetBrains Mono",Consolas,"Courier New",monospace;
+    --shadow:0 1px 2px rgba(22,35,59,.05), 0 10px 30px rgba(22,35,59,.05);
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:var(--sans);color:var(--ink);background:var(--canvas);display:flex;height:100vh;overflow:hidden}
+
+  /* ── 侧栏 ── */
+  .rail{width:224px;flex:none;background:var(--surface);border-right:1px solid var(--line);display:flex;flex-direction:column;padding:20px 14px}
+  .logo{display:flex;align-items:center;gap:11px;padding:4px 8px 20px}
+  .logo .mark{width:34px;height:34px;border-radius:9px;background:var(--ink);display:flex;align-items:center;justify-content:center;flex:none}
+  .logo .name{font-size:17px;font-weight:800;letter-spacing:.01em;line-height:1.1}
+  .logo .name small{display:block;font-family:var(--mono);font-size:9.5px;font-weight:400;color:var(--ink3);letter-spacing:.18em;margin-top:3px}
+  .navlabel{font-size:11px;font-weight:600;color:var(--ink3);letter-spacing:.14em;padding:16px 12px 8px}
+  .item{display:flex;align-items:center;gap:11px;height:42px;padding:0 12px;border-radius:10px;font-size:14.5px;color:var(--ink2);cursor:pointer;margin-bottom:2px}
+  .item svg{flex:none}
+  .item:hover{background:#F3F6FA}
+  .item.on{background:var(--signal-soft);color:var(--signal-ink);font-weight:600}
+  .item.off{color:#B4BFCF}
+  .item .soon{margin-left:auto;font-size:10.5px;color:var(--ink3);background:#F1F4F8;border-radius:99px;padding:2px 8px}
+  .rail .foot{margin-top:auto;border-top:1px solid var(--line);padding-top:14px;display:flex;align-items:center;gap:10px}
+  .avatar{width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,#2458F5,#12B98A);color:#fff;font-size:13px;font-weight:700;display:flex;align-items:center;justify-content:center;flex:none}
+  .foot .who{flex:1;line-height:1.25;min-width:0}
+  .foot .who b{font-size:13.5px;display:block}
+  .foot .who span{font-size:11.5px;color:var(--ink3)}
+  .foot .out{color:var(--ink3);cursor:pointer;padding:6px;border-radius:8px}
+  .foot .out:hover{background:#F3F6FA;color:var(--signal)}
+
+  /* ── 主体 ── */
+  .main{flex:1;display:flex;flex-direction:column;min-width:0}
+  .top{height:64px;flex:none;background:rgba(255,255,255,.85);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);display:flex;align-items:center;padding:0 28px;gap:18px}
+  .top h2{font-size:17px;font-weight:700}
+  .top .live{display:flex;align-items:center;gap:7px;font-size:12px;color:var(--trace);background:var(--trace-soft);border-radius:99px;padding:4px 11px}
+  .top .live i{width:7px;height:7px;border-radius:50%;background:var(--trace);animation:pulse 1.6s infinite}
+  @keyframes pulse{0%,100%{opacity:1}50%{opacity:.35}}
+  .search{margin-left:auto;display:flex;align-items:center;gap:8px;background:var(--canvas);border:1px solid var(--line);border-radius:99px;height:36px;padding:0 14px;width:250px;color:var(--ink3);font-size:13px}
+  .search kbd{margin-left:auto;font-family:var(--mono);font-size:10.5px;background:#fff;border:1px solid var(--line);border-radius:5px;padding:1px 6px;color:var(--ink2)}
+  .top .bell{position:relative;color:var(--ink2);cursor:pointer;padding:8px;border-radius:9px}
+  .top .bell:hover{background:var(--canvas)}
+  .top .bell::after{content:"";position:absolute;top:8px;right:9px;width:7px;height:7px;border-radius:50%;background:var(--amber);border:1.5px solid #fff}
+
+  .content{flex:1;overflow:auto;padding:26px 28px 32px}
+  .greet{display:flex;align-items:baseline;gap:14px;margin-bottom:20px}
+  .greet h3{font-size:22px;font-weight:700}
+  .greet span{font-size:13px;color:var(--ink2);font-family:var(--mono);letter-spacing:.04em}
+  .actions{display:flex;gap:12px;margin-bottom:20px}
+  .act{height:46px;border-radius:11px;display:flex;align-items:center;gap:8px;padding:0 20px;font-size:14.5px;font-weight:600;cursor:pointer;border:1px solid transparent}
+  .act.primary{background:var(--signal);color:#fff;box-shadow:0 8px 20px rgba(36,88,245,.28)}
+  .act.ghost{background:var(--surface);border-color:var(--line);color:var(--ink)}
+  .act.soon{background:var(--surface);border-color:var(--line);color:#B4BFCF}
+  .act.soon em{font-style:normal;font-size:11px;color:var(--ink3);background:#F1F4F8;border-radius:99px;padding:2px 8px;font-weight:400}
+
+  .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:18px}
+  .stat{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:18px 20px;box-shadow:var(--shadow)}
+  .stat .k{font-size:12.5px;color:var(--ink2);display:flex;align-items:center;gap:8px;margin-bottom:10px}
+  .stat .k .demo{font-size:10px;color:var(--ink3);background:#F1F4F8;border-radius:99px;padding:1.5px 7px}
+  .stat .v{font-family:var(--mono);font-size:30px;font-weight:700;letter-spacing:-.02em}
+  .stat .v small{font-size:13px;font-weight:400;color:var(--ink3);margin-left:5px;font-family:var(--sans)}
+  .stat .d{font-size:12px;color:var(--ink3);margin-top:8px}
+  .stat .d b.up{color:var(--trace);font-weight:600}
+
+  .cols{display:grid;grid-template-columns:1.5fr 1fr;gap:14px;align-items:start}
+  .panel{background:var(--surface);border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow)}
+  .panel .head{display:flex;align-items:center;padding:16px 20px 12px}
+  .panel .head b{font-size:15px}
+  .panel .head a{margin-left:auto;font-size:12.5px;color:var(--signal);cursor:pointer;font-weight:500}
+  .row{display:grid;grid-template-columns:1.4fr 1fr .8fr .9fr;gap:10px;padding:12px 20px;border-top:1px solid #F0F3F7;align-items:center;font-size:13.5px}
+  .row.h{font-size:11.5px;color:var(--ink3);font-weight:600;border-top:0;padding-top:2px}
+  .row .code{font-family:var(--mono);font-size:12.5px;color:var(--ink2)}
+  .row .cname{font-weight:600;display:flex;align-items:center;gap:9px}
+  .dot{width:8px;height:8px;border-radius:3px;flex:none}
+  .row .date{font-family:var(--mono);font-size:12px;color:var(--ink2)}
+  .todo{display:flex;align-items:center;gap:11px;padding:13px 20px;border-top:1px solid #F0F3F7;font-size:13.5px}
+  .todo:first-of-type{border-top:0}
+  .todo .ic{width:30px;height:30px;border-radius:9px;display:flex;align-items:center;justify-content:center;flex:none}
+  .todo .tx{flex:1;line-height:1.35}
+  .todo .tx small{display:block;font-size:11.5px;color:var(--ink3);margin-top:2px}
+  .todo .tx .code{font-family:var(--mono);font-size:12px}
+  .todo .go{color:var(--ink3);cursor:pointer}
+</style>
+</head>
+<body>
+  <aside class="rail">
+    <div class="logo">
+      <div class="mark">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#2FE3B0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M2 13h5V6h5v7h5V9h5"/>
+        </svg>
+      </div>
+      <div class="name">LIMS<small>EMC LAB</small></div>
+    </div>
+    <div class="navlabel">概览</div>
+    <div class="item on">
+      <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="8" height="8" rx="2"/><rect x="13" y="3" width="8" height="5" rx="2"/><rect x="13" y="10" width="8" height="11" rx="2"/><rect x="3" y="13" width="8" height="8" rx="2"/></svg>
+      工作台
+    </div>
+    <div class="navlabel">业务</div>
+    <div class="item">
+      <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="9" cy="8" r="3.4"/><path d="M2.8 19c1.3-2.9 3.6-4.3 6.2-4.3s4.9 1.4 6.2 4.3"/><circle cx="17.2" cy="9.2" r="2.6"/><path d="M16.4 14.6c2.3.3 4 1.6 4.9 3.9"/></svg>
+      客户管理
+    </div>
+    <div class="item off">
+      <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2.8h9L20 7.8v13a1.2 1.2 0 0 1-1.2 1.2H6A1.2 1.2 0 0 1 4.8 20.8V4A1.2 1.2 0 0 1 6 2.8Z"/><path d="M8.5 12h7M8.5 15.5h7M8.5 8.5h3"/></svg>
+      报价管理<span class="soon">即将上线</span>
+    </div>
+    <div class="item off">
+      <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="4" width="14" height="17" rx="2"/><path d="M9 4a3 3 0 0 1 6 0M9 10h6M9 13.5h6M9 17h3.5"/></svg>
+      委托管理<span class="soon">即将上线</span>
+    </div>
+    <div class="item off">
+      <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2.8 20 7v10l-8 4.2L4 17V7l8-4.2Z"/><path d="M4 7l8 4.2L20 7M12 11.2V21"/></svg>
+      样品管理<span class="soon">即将上线</span>
+    </div>
+    <div class="foot">
+      <div class="avatar">张</div>
+      <div class="who"><b>张业务</b><span>业务 · zhangyw</span></div>
+      <div class="out" title="退出登录">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 4H6a1.5 1.5 0 0 0-1.5 1.5v13A1.5 1.5 0 0 0 6 20h8"/><path d="M10 12h10m0 0-3.2-3.2M20 12l-3.2 3.2"/></svg>
+      </div>
+    </div>
+  </aside>
+
+  <div class="main">
+    <div class="top">
+      <h2>工作台</h2>
+      <div class="live"><i></i>系统运行中</div>
+      <div class="search">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="11" cy="11" r="6.5"/><path d="m20 20-4.3-4.3"/></svg>
+        搜索客户 / 委托 / 报告…<kbd>⌘K</kbd>
+      </div>
+      <div class="bell">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9.5a6 6 0 0 1 12 0c0 5 2 6 2 6H4s2-1 2-6"/><path d="M10 19.5a2.2 2.2 0 0 0 4 0"/></svg>
+      </div>
+    </div>
+
+    <div class="content">
+      <div class="greet">
+        <h3>下午好，张业务</h3>
+        <span>2026.09.14 周一 · 3 项待办</span>
+      </div>
+      <div class="actions">
+        <div class="act primary">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
+          新建客户
+        </div>
+        <div class="act ghost">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
+          新建报价
+        </div>
+        <div class="act ghost">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
+          新建委托
+        </div>
+        <div class="act soon">更多模块<em>按角色逐步开放</em></div>
+      </div>
+
+      <div class="stats">
+        <div class="stat">
+          <div class="k">本月委托 <span class="demo">示例</span></div>
+          <div class="v">12<small>单</small></div>
+          <div class="d">较上月 <b class="up">+3</b></div>
+        </div>
+        <div class="stat">
+          <div class="k">在测样品 <span class="demo">示例</span></div>
+          <div class="v">5<small>件</small></div>
+          <div class="d">2 件今日到期</div>
+        </div>
+        <div class="stat">
+          <div class="k">待出报告 <span class="demo">示例</span></div>
+          <div class="v">3<small>份</small></div>
+          <div class="d">最早 09-16 交付</div>
+        </div>
+      </div>
+
+      <div class="cols">
+        <div class="panel">
+          <div class="head"><b>最近客户</b><a>查看全部 →</a></div>
+          <div class="row h"><span>客户</span><span>编号</span><span>行业</span><span>最近委托</span></div>
+          <div class="row"><span class="cname"><i class="dot" style="background:#2458F5"></i>华为终端</span><span class="code">CU-001</span><span>消费电子</span><span class="date">09-12</span></div>
+          <div class="row"><span class="cname"><i class="dot" style="background:#12B98A"></i>小米通讯</span><span class="code">CU-002</span><span>消费电子</span><span class="date">09-10</span></div>
+          <div class="row"><span class="cname"><i class="dot" style="background:#E8930C"></i>大疆创新</span><span class="code">CU-003</span><span>无人机</span><span class="date">09-08</span></div>
+          <div class="row"><span class="cname"><i class="dot" style="background:#7C5CFC"></i>立讯精密</span><span class="code">CU-004</span><span>连接器</span><span class="date">09-05</span></div>
+        </div>
+        <div class="panel">
+          <div class="head"><b>待办</b><a>全部 →</a></div>
+          <div class="todo">
+            <div class="ic" style="background:var(--amber-soft);color:var(--amber)">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2.8h9L20 7.8v13a1.2 1.2 0 0 1-1.2 1.2H6A1.2 1.2 0 0 1 4.8 20.8V4A1.2 1.2 0 0 1 6 2.8Z"/><path d="M8.5 12h7M8.5 15.5h4"/></svg>
+            </div>
+            <div class="tx">报价单待客户确认<small><span class="code">QT-2026-018</span> · 华为终端 · 剩 2 天</small></div>
+            <div class="go">→</div>
+          </div>
+          <div class="todo">
+            <div class="ic" style="background:var(--blue-soft);color:var(--blue)">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2.8 20 7v10l-8 4.2L4 17V7l8-4.2Z"/><path d="M4 7l8 4.2L20 7"/></svg>
+            </div>
+            <div class="tx">样品待安排测试<small><span class="code">SM-2026-0231</span> · 小米通讯</small></div>
+            <div class="go">→</div>
+          </div>
+          <div class="todo">
+            <div class="ic" style="background:var(--trace-soft);color:var(--trace)">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.5"/><path d="m8.5 12.2 2.4 2.4 4.6-4.8"/></svg>
+            </div>
+            <div class="tx">报告待审核<small><span class="code">EP-2026-041</span> · 立讯精密</small></div>
+            <div class="go">→</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
