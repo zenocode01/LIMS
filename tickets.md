@@ -103,7 +103,7 @@ Status: done
 
 ## T-013 P2-应用外壳+客户管理（首模块打样）
 Resolution: 根因: P1 底座 UI 简陋（默认 antd 顶栏+占位文字），用户要求反传统 ERP、更直观易用；修复: ①设计定稿（用户确认）——示波器波形签名/电蓝#2458F5+示波青/离白底大圆角/编号等宽字体，设计稿 docs/测试&BUGS/ui-mock/；②前端重做——登录页（深蓝+示波网格+发光信号线）、AppShell（浅色窄侧栏+细顶栏）、工作台页（问候/动作卡/示例数据/最近客户/待办）、客户管理页（列表+防抖搜索+建档编辑弹窗+删除）、theme.ts+app.css、路由角色守卫（工程师 /customers→403）；③后端客户模块——Customer 模型+CU 静态编号+/api/customers CRUD（读=业务+管理, 写=业务, 工程师403）+名称唯一+q搜索+limit+PATCH exclude_unset 支持清空+alembic 0003；验证: pytest 40 全绿（test_customers 4 用例），tsc+vite build 通过，真 uvicorn+dist Playwright 端到端全过（登录/建客户/搜索/编辑/工程师403/admin只读），截图 ui-mock/real-*.png
-Status: review
+Status: done
 
 > 设计方向（2026-09-14 用户确认）：反传统 ERP——角色工作台首页、浅色窄侧栏、大圆角卡片留白、
 > 示波器波形为签名元素（登录页/Logo/顶栏脉动点）、编号等宽字体一等公民。
