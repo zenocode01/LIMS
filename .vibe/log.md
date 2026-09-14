@@ -186,3 +186,16 @@
 2026-09-14 02:24:19 | phase | review -> commit --pass
 2026-09-14 02:24:54 | branch | merged vibe/T-013 -> main and deleted
 2026-09-14 02:24:54 | close | T-013 (P2-应用外壳+客户管理（首模块打样）)
+2026-09-14 03:05:48 | add | T-014 (P2-报价管理（报价单状态机+明细，首屏打样延续）)
+2026-09-14 03:10:59 | branch | created vibe/T-014 (from main)
+2026-09-14 03:10:59 | begin | T-014 (P2-报价管理（报价单状态机+明细，首屏打样延续）)
+2026-09-14 03:11:09 | gloss | add 已落单
+2026-09-14 03:11:10 | gloss | add 标准项目
+2026-09-14 03:13:48 | phase | analyze -> plan
+2026-09-14 03:13:48 | phase | plan -> implement
+2026-09-14 03:44:43 | phase | implement -> verify
+2026-09-14 03:45:14 | verify | verify -> review exit=0 [cd backend && python3 -m pytest] 证据: /home/dkd/projects/lims/.vibe/evidence/20260914-034443-verify-review.txt
+2026-09-14 03:45:14 | auto-sync | in-progress -> review (Phase=review)
+2026-09-14 03:45:14 | phase | verify -> review --green
+2026-09-14 03:45:57 | resolve | T-014 (P2-报价管理（报价单状态机+明细，首屏打样延续）)
+2026-09-14 03:46:14 | phase | review -> commit --pass

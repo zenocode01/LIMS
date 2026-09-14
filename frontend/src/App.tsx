@@ -4,6 +4,7 @@ import zhCN from 'antd/locale/zh_CN'
 import LoginPage from './pages/LoginPage'
 import WorkbenchPage from './pages/WorkbenchPage'
 import CustomersPage from './pages/CustomersPage'
+import QuotationsPage from './pages/QuotationsPage'
 import { Shell } from './auth'
 import { antdTheme } from './theme'
 
@@ -27,6 +28,14 @@ export default function App() {
               element={
                 <Shell title="客户管理" active="customers" needRoles={['business', 'admin']}>
                   <CustomersPage />
+                </Shell>
+              }
+            />
+            <Route
+              path="/quotations"
+              element={
+                <Shell title="报价管理" active="quotations" needRoles={['business', 'admin']}>
+                  <QuotationsPage />
                 </Shell>
               }
             />

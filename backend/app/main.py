@@ -5,6 +5,7 @@ from fastapi.responses import FileResponse
 
 from .api.auth import router as auth_router
 from .api.customers import router as customers_router
+from .api.quotes import router as quotes_router
 from .api.users import router as users_router
 from .config import get_settings
 
@@ -53,6 +54,7 @@ def create_app(static_dir: str | None = None) -> FastAPI:
     app.include_router(auth_router)
     app.include_router(users_router)
     app.include_router(customers_router)
+    app.include_router(quotes_router)
 
     @app.get("/api/health")
     def health():
