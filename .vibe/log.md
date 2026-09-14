@@ -171,3 +171,16 @@
 2026-09-07 09:47:03 | resolve | T-012 (Windows start/stop 服务脚本（后台启动 + 端口精准停止）)
 2026-09-07 09:55:15 | branch | merged vibe/T-012 -> main and deleted
 2026-09-07 09:55:15 | close | T-012 (Windows start/stop 服务脚本（后台启动 + 端口精准停止）)
+2026-09-13 00:32:06 | add | T-013 (P2-应用外壳+客户管理（首模块打样）)
+2026-09-13 00:32:07 | branch | created vibe/T-013 (from main)
+2026-09-13 00:32:07 | begin | T-013 (P2-应用外壳+客户管理（首模块打样）)
+2026-09-14 02:09:47 | gloss | add 工作台
+2026-09-14 02:09:47 | gloss | add 示例数据
+2026-09-14 02:10:03 | phase | analyze -> plan
+2026-09-14 02:10:03 | phase | plan -> implement
+2026-09-14 02:22:06 | phase | implement -> verify
+2026-09-14 02:22:32 | verify | verify -> review exit=0 [cd backend && python3 -m pytest] 证据: /home/dkd/projects/lims/.vibe/evidence/20260914-022211-verify-review.txt
+2026-09-14 02:22:32 | auto-sync | in-progress -> review (Phase=review)
+2026-09-14 02:22:32 | phase | verify -> review --green
+2026-09-14 02:24:15 | resolve | T-013 (P2-应用外壳+客户管理（首模块打样）)
+2026-09-14 02:24:19 | phase | review -> commit --pass

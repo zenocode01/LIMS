@@ -100,3 +100,21 @@ Status: done
 - [x] start.bat 升级后台模式（最小化窗口 + lims.log 日志 + 启动后端口状态检查）
 - [x] stop.bat 新增（netstat 找 PORT 监听 PID + taskkill 精准杀，不误伤其他程序）
 - [x] 两脚本纯 ASCII + CRLF；逐行审查修掉 if 块内 echo 括号陷阱；README 同步
+
+## T-013 P2-应用外壳+客户管理（首模块打样）
+Resolution: 根因: P1 底座 UI 简陋（默认 antd 顶栏+占位文字），用户要求反传统 ERP、更直观易用；修复: ①设计定稿（用户确认）——示波器波形签名/电蓝#2458F5+示波青/离白底大圆角/编号等宽字体，设计稿 docs/测试&BUGS/ui-mock/；②前端重做——登录页（深蓝+示波网格+发光信号线）、AppShell（浅色窄侧栏+细顶栏）、工作台页（问候/动作卡/示例数据/最近客户/待办）、客户管理页（列表+防抖搜索+建档编辑弹窗+删除）、theme.ts+app.css、路由角色守卫（工程师 /customers→403）；③后端客户模块——Customer 模型+CU 静态编号+/api/customers CRUD（读=业务+管理, 写=业务, 工程师403）+名称唯一+q搜索+limit+PATCH exclude_unset 支持清空+alembic 0003；验证: pytest 40 全绿（test_customers 4 用例），tsc+vite build 通过，真 uvicorn+dist Playwright 端到端全过（登录/建客户/搜索/编辑/工程师403/admin只读），截图 ui-mock/real-*.png
+Status: review
+
+> 设计方向（2026-09-14 用户确认）：反传统 ERP——角色工作台首页、浅色窄侧栏、大圆角卡片留白、
+> 示波器波形为签名元素（登录页/Logo/顶栏脉动点）、编号等宽字体一等公民。
+> 设计稿: docs/测试&BUGS/ui-mock/{login,workbench}.html|png
+> 权限（设计规格 §5）: 客户 = 业务管理 / 工程师无权限 / 管理查看。
+
+- [x] 后端 Customer: 模型 + CU 静态编号 + schema + /api/customers CRUD（RBAC: 读=业务+管理, 写=业务）
+- [x] 后端: alembic 0003_customers 迁移 + pytest（RBAC/编号/搜索/增删改）
+- [x] 前端: 主题 token（电蓝 #2458F5 / 示波青 / 离白底）+ antd ConfigProvider
+- [x] 前端: 登录页重做（深蓝+示波网格+发光信号线+品牌区+白浮层表单）
+- [x] 前端: AppShell 外壳（浅色窄侧栏 Logo/菜单/即将上线位/用户卡 + 细顶栏 标题/状态点/⌘K 搜索/铃铛）
+- [x] 前端: 工作台页（问候/大动作卡/概览示例数据卡/最近客户(真实)/待办(示例)）
+- [x] 前端: 客户管理页（列表+搜索+新建/编辑弹窗+删除, 角色差异: 管理只读, 工程师隐藏入口）
+- [x] 前端: 路由与角色守卫（工程师访问 /customers → 403 提示页）
