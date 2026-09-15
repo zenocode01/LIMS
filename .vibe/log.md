@@ -241,3 +241,5 @@
 2026-09-15 04:16:35 | phase | verify -> review --green
 2026-09-15 04:16:35 | resolve | T-017 (P2-样品管理（样品状态机+流转留痕）)
 2026-09-15 04:16:36 | phase | review -> commit --pass
+2026-09-15 04:17:28 | branch | merged vibe/T-017 -> main and deleted
+2026-09-15 04:17:28 | close | T-017 (P2-样品管理（样品状态机+流转留痕）)

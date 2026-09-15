@@ -4,8 +4,8 @@
 
 ## Status
 
-Phase: commit
-Current Ticket: T-017
+Phase: analyze
+Current Ticket: 
 Domain: 实验室信息管理系统（LIMS），领域 EMC（电磁兼容）；P2 模块开发中——客户/报价/委托/样品（样品 S-EMC-日期-流水 状态机 已登记→在测→已返→已报废，流转留痕）
 
 ## 配置

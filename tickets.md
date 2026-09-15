@@ -160,4 +160,4 @@ Depends: T-016
 - [x] alembic 0006_samples
 - [x] 前端: 样品管理页（列表/详情/登记/流转+备注/留痕时间线）、导航、委托详情样品区
 - [x] tests/test_samples.py（5 例：RBAC/编号+登记留痕/流转链+留痕倒序/非法迁移/过滤搜索）
-Status: review
+Status: done
