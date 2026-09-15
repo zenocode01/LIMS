@@ -257,3 +257,5 @@
 2026-09-15 04:30:13 | phase | verify -> review --green
 2026-09-15 04:30:13 | resolve | T-018 (P3-标准库（标准+测试项目+设备简表）)
 2026-09-15 04:30:13 | phase | review -> commit --pass
+2026-09-15 04:31:14 | branch | merged vibe/T-018 -> main and deleted
+2026-09-15 04:31:14 | close | T-018 (P3-标准库（标准+测试项目+设备简表）)

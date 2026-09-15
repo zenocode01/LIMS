@@ -170,7 +170,7 @@ Resolution: 实现: 标准库模块（设计规格 §5/§7/§8 落地）——St
 - [x] alembic 0007_standards
 - [x] 前端: 标准库页（标准/设备双 Tab, 项目动态编辑器, EMI/EMS 类别标签）
 - [x] tests/test_standards.py（4 例）, 全量 60 绿
-Status: review
+Status: done
 
 ## T-019 P3-记录模板库（模板+字段定义）
 Depends: T-018

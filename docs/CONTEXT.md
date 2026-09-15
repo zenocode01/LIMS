@@ -4,8 +4,8 @@
 
 ## Status
 
-Phase: commit
-Current Ticket: T-018
+Phase: analyze
+Current Ticket: 
 Domain: 实验室信息管理系统（LIMS），领域 EMC（电磁兼容）；P3 模块开发中——标准库（官方号标准+EMI/EMS 测试项目+设备 EQ-NNN）已落地，接下来记录模板/任务/排程
 
 ## 配置
