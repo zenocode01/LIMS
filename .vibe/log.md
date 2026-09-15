@@ -214,3 +214,17 @@
 2026-09-15 00:44:51 | phase | review -> commit --pass
 2026-09-15 00:45:23 | branch | merged vibe/T-015 -> main and deleted
 2026-09-15 00:45:23 | close | T-015 (修复: 登录页右侧卡片过大)
+2026-09-15 03:47:24 | add | T-016 (P2-委托管理（委托单状态机+从报价一键转入）)
+2026-09-15 03:47:24 | add | T-017 (P2-样品管理（样品状态机+流转留痕）)
+2026-09-15 03:47:42 | branch | created vibe/T-016 (from main)
+2026-09-15 03:47:42 | begin | T-016 (P2-委托管理（委托单状态机+从报价一键转入）)
+2026-09-15 03:47:42 | gloss | add 确认委托
+2026-09-15 03:47:42 | gloss | add 已终止
+2026-09-15 03:47:42 | phase | analyze -> plan
+2026-09-15 03:47:42 | phase | plan -> implement
+2026-09-15 03:55:01 | phase | implement -> verify
+2026-09-15 03:55:44 | verify | verify -> review exit=0 [cd backend && python3 -m pytest] 证据: /home/dkd/projects/lims/.vibe/evidence/20260915-035501-verify-review.txt
+2026-09-15 03:55:44 | auto-sync | in-progress -> review (Phase=review)
+2026-09-15 03:55:44 | phase | verify -> review --green
+2026-09-15 03:56:02 | resolve | T-016 (P2-委托管理（委托单状态机+从报价一键转入）)
+2026-09-15 03:56:02 | phase | review -> commit --pass

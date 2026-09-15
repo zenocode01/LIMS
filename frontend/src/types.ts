@@ -39,6 +39,42 @@ export interface Quote {
   finalized_at: string | null
 }
 
+export type EntrustStatus =
+  | 'draft'
+  | 'confirmed'
+  | 'testing'
+  | 'report_issued'
+  | 'completed'
+  | 'terminated'
+
+export const ENTRUST_STATUS_LABELS: Record<EntrustStatus, string> = {
+  draft: '草稿',
+  confirmed: '已确认',
+  testing: '测试中',
+  report_issued: '已出报告',
+  completed: '已完成',
+  terminated: '已终止',
+}
+
+export interface Entrustment {
+  id: number
+  code: string
+  customer_id: number
+  customer_name: string
+  source_quote_id: number | null
+  source_quote_code: string | null
+  requirement: string | null
+  external_no: string | null
+  status: EntrustStatus
+  status_label: string
+  created_by: string | null
+  created_at: string
+  confirmed_at: string | null
+  terminated_at: string | null
+  terminated_by: string | null
+  terminated_reason: string | null
+}
+
 export interface Customer {
   id: number
   code: string

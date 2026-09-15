@@ -5,6 +5,7 @@ import LoginPage from './pages/LoginPage'
 import WorkbenchPage from './pages/WorkbenchPage'
 import CustomersPage from './pages/CustomersPage'
 import QuotationsPage from './pages/QuotationsPage'
+import EntrustmentsPage from './pages/EntrustmentsPage'
 import { Shell } from './auth'
 import { antdTheme } from './theme'
 
@@ -36,6 +37,14 @@ export default function App() {
               element={
                 <Shell title="报价管理" active="quotations" needRoles={['business', 'admin']}>
                   <QuotationsPage />
+                </Shell>
+              }
+            />
+            <Route
+              path="/entrustments"
+              element={
+                <Shell title="委托管理" active="entrustments">
+                  <EntrustmentsPage />
                 </Shell>
               }
             />
