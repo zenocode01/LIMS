@@ -109,6 +109,34 @@ export interface Sample {
   events: SampleEvent[]
 }
 
+export interface StandardItem {
+  id: number
+  standard_id: number
+  name: string
+  category: string
+  method: string | null
+  criteria: string | null
+}
+
+export interface Standard {
+  id: number
+  std_no: string
+  name: string
+  effective_date: string | null
+  status: string
+  items: StandardItem[]
+  item_count: number
+}
+
+export interface Equipment {
+  id: number
+  code: string
+  name: string
+  model: string | null
+  location: string | null
+  created_at: string
+}
+
 export interface Customer {
   id: number
   code: string

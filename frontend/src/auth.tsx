@@ -88,6 +88,7 @@ function ShellLayout({
   const bizItems: { key: string; label: string; to: string; roles: string[] | null }[] = [
     { key: 'entrustments', label: '委托管理', to: '/entrustments', roles: null },
     { key: 'samples', label: '样品管理', to: '/samples', roles: null },
+    { key: 'standards', label: '标准库', to: '/standards', roles: null },
   ]
 
   return (
@@ -194,6 +195,14 @@ function NavIcon({ name }: { name: string }) {
     strokeLinejoin: 'round' as const,
   }
   switch (name) {
+    case 'standards':
+      return (
+        <svg {...common}>
+          <path d="M5 3.2h11.5L20 6.7v14a.8.8 0 0 1-.8.8H5a.8.8 0 0 1-.8-.8v-17A.8.8 0 0 1 5 3.2Z" />
+          <path d="M8 3.2v4h7v-4" />
+          <path d="M8 12h8M8 15.5h5" />
+        </svg>
+      )
     case 'samples':
       return (
         <svg {...common}>

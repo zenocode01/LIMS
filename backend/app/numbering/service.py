@@ -61,6 +61,10 @@ def no_task(db: Session) -> str:
     return f"T-{date.today():%Y%m%d}-{take_daily(db, 'T'):03d}"
 
 
+def no_equipment(db: Session) -> str:
+    return f"EQ-{take_static(db, 'EQ'):03d}"
+
+
 def no_record(db: Session, prefix: str, level: int, template_no: int) -> str:
     """技术/质量记录: TR4-004-20250623-001。level=表单层级 1-4。"""
     assert prefix in ("TR", "QR"), f"非法记录前缀 {prefix}"

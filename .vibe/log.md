@@ -243,3 +243,17 @@
 2026-09-15 04:16:36 | phase | review -> commit --pass
 2026-09-15 04:17:28 | branch | merged vibe/T-017 -> main and deleted
 2026-09-15 04:17:28 | close | T-017 (P2-样品管理（样品状态机+流转留痕）)
+2026-09-15 04:18:22 | add | T-018 (P3-标准库（标准+测试项目+设备简表）)
+2026-09-15 04:18:23 | add | T-019 (P3-记录模板库（模板+字段定义）)
+2026-09-15 04:18:23 | add | T-020 (P3-测试任务（确认委托自动生成+任务状态机）)
+2026-09-15 04:18:23 | add | T-021 (P3-排程日历（任务排程+日历视图）)
+2026-09-15 04:18:34 | branch | created vibe/T-018 (from main)
+2026-09-15 04:18:34 | begin | T-018 (P3-标准库（标准+测试项目+设备简表）)
+2026-09-15 04:18:34 | phase | analyze -> plan
+2026-09-15 04:18:34 | phase | plan -> implement
+2026-09-15 04:29:13 | phase | implement -> verify
+2026-09-15 04:30:13 | verify | verify -> review exit=0 [cd backend && python3 -m pytest] 证据: /home/dkd/projects/lims/.vibe/evidence/20260915-042913-verify-review.txt
+2026-09-15 04:30:13 | auto-sync | in-progress -> review (Phase=review)
+2026-09-15 04:30:13 | phase | verify -> review --green
+2026-09-15 04:30:13 | resolve | T-018 (P3-标准库（标准+测试项目+设备简表）)
+2026-09-15 04:30:13 | phase | review -> commit --pass
