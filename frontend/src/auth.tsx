@@ -89,6 +89,7 @@ function ShellLayout({
     { key: 'entrustments', label: '委托管理', to: '/entrustments', roles: null },
     { key: 'samples', label: '样品管理', to: '/samples', roles: null },
     { key: 'standards', label: '标准库', to: '/standards', roles: null },
+    { key: 'templates', label: '记录模板', to: '/templates', roles: null },
   ]
 
   return (
@@ -195,6 +196,13 @@ function NavIcon({ name }: { name: string }) {
     strokeLinejoin: 'round' as const,
   }
   switch (name) {
+    case 'templates':
+      return (
+        <svg {...common}>
+          <rect x="4" y="3.4" width="16" height="17.2" rx="1.4" />
+          <path d="M7.5 8h9M7.5 12h9M7.5 16h5.5" />
+        </svg>
+      )
     case 'standards':
       return (
         <svg {...common}>

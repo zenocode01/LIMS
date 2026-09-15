@@ -137,6 +137,31 @@ export interface Equipment {
   created_at: string
 }
 
+export interface TemplateField {
+  id: number
+  template_id: number
+  field_no: number
+  field_name: string
+  field_type: string
+  unit: string | null
+  required: boolean
+  criteria_expr: string | null
+}
+
+export interface RecordTemplate {
+  id: number
+  tpl_no: string
+  name: string
+  form_level: number
+  form_level_label: string
+  category: string
+  controlled: string
+  version: number
+  fields: TemplateField[]
+  field_count: number
+  created_at: string
+}
+
 export interface Customer {
   id: number
   code: string
