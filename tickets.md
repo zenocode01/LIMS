@@ -153,5 +153,11 @@ Resolution: 实现: 委托单模块（设计规格 §3/§5/§7 落地）——�
 Status: done
 
 ## T-017 P2-样品管理（样品状态机+流转留痕）
+Resolution: 实现: 样品模块（设计规格 §3/§5/§7 落地）——Sample 模型（编号 S-EMC-YYYYMMDD-流水 业务线伞类 按日归零；状态机 已登记→在测→已返→已报废，线性守卫 409）+ SampleEvent 流转留痕表（每次变更写 from/to/操作人/备注/时间，只增不删，倒序展示）；API /api/samples CRUD + transition（登记自动写首条留痕）；权限 §5 业务登记/流转、工程师查看（含留痕）、管理全量；alembic 0006；前端样品管理页（列表/详情/登记/流转+备注/留痕时间线）+ 侧边导航 + 委托详情样品区（聚合可视化）；tests 5 例，全量 pytest 56 绿；E2E 实测 登记→在测→已返→报废 全链 + 留痕备注 + 委托详情样品区 + 工程师只读
 Depends: T-016
-Status: backlog
+- [x] 后端: Sample + SampleEvent 留痕模型（S-EMC-YYYYMMDD-流水；已登记→在测→已返→已报废，每次变更留痕）
+- [x] API: CRUD + transition（状态机守卫 409 + 留痕写入）；权限 §5 业务登记/流转、工程师查看、管理全量
+- [x] alembic 0006_samples
+- [x] 前端: 样品管理页（列表/详情/登记/流转+备注/留痕时间线）、导航、委托详情样品区
+- [x] tests/test_samples.py（5 例：RBAC/编号+登记留痕/流转链+留痕倒序/非法迁移/过滤搜索）
+Status: review
