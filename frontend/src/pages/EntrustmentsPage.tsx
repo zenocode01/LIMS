@@ -162,6 +162,13 @@ export default function EntrustmentsPage() {
         v ? <span className="cust-code">{v}</span> : <span style={{ color: 'var(--ink3)' }}>手工建单</span>,
     },
     {
+      title: '外部单号',
+      dataIndex: 'external_no',
+      width: 130,
+      render: (v: string | null) =>
+        v ? <span className="cust-code">{v}</span> : <span style={{ color: 'var(--ink3)' }}>—</span>,
+    },
+    {
       title: '委托要求',
       dataIndex: 'requirement',
       ellipsis: true,
