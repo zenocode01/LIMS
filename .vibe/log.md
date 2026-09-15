@@ -230,3 +230,14 @@
 2026-09-15 03:56:02 | phase | review -> commit --pass
 2026-09-15 04:06:12 | branch | merged vibe/T-016 -> main and deleted
 2026-09-15 04:06:12 | close | T-016 (P2-委托管理（委托单状态机+从报价一键转入）)
+2026-09-15 04:06:18 | branch | created vibe/T-017 (from main)
+2026-09-15 04:06:18 | begin | T-017 (P2-样品管理（样品状态机+流转留痕）)
+2026-09-15 04:06:18 | gloss | add 流转留痕
+2026-09-15 04:06:18 | phase | analyze -> plan
+2026-09-15 04:06:18 | phase | plan -> implement
+2026-09-15 04:15:43 | phase | implement -> verify
+2026-09-15 04:16:35 | verify | verify -> review exit=0 [cd backend && python3 -m pytest] 证据: /home/dkd/projects/lims/.vibe/evidence/20260915-041544-verify-review.txt
+2026-09-15 04:16:35 | auto-sync | in-progress -> review (Phase=review)
+2026-09-15 04:16:35 | phase | verify -> review --green
+2026-09-15 04:16:35 | resolve | T-017 (P2-样品管理（样品状态机+流转留痕）)
+2026-09-15 04:16:36 | phase | review -> commit --pass

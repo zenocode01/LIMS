@@ -80,14 +80,14 @@ function ShellLayout({
   children: ReactNode
 }) {
   const nav = useNavigate()
-  const items = [
-    { key: 'workbench', label: '工作台', to: '/', roles: null as string[] | null },
+  const items: { key: string; label: string; to: string; roles: string[] | null }[] = [
+    { key: 'workbench', label: '工作台', to: '/', roles: null },
     { key: 'customers', label: '客户管理', to: '/customers', roles: ['business', 'admin'] },
     { key: 'quotations', label: '报价管理', to: '/quotations', roles: ['business', 'admin'] },
-    { key: 'entrustments', label: '委托管理', to: '/entrustments', roles: null },
   ]
-  const soon = [
-    { key: 'samples', label: '样品管理' },
+  const bizItems: { key: string; label: string; to: string; roles: string[] | null }[] = [
+    { key: 'entrustments', label: '委托管理', to: '/entrustments', roles: null },
+    { key: 'samples', label: '样品管理', to: '/samples', roles: null },
   ]
 
   return (
@@ -118,13 +118,18 @@ function ShellLayout({
             </div>
           ))}
         <div className="rail-label">业务</div>
-        {soon.map((s) => (
-          <div key={s.key} className="rail-item off">
-            <NavIcon name={s.key} />
-            {s.label}
-            <span className="soon">即将上线</span>
-          </div>
-        ))}
+        {bizItems
+          .filter((i) => !i.roles || i.roles.includes(me.role))
+          .map((i) => (
+            <div
+              key={i.key}
+              className={`rail-item ${active === i.key ? 'on' : ''}`}
+              onClick={() => nav(i.to)}
+            >
+              <NavIcon name={i.key} />
+              {i.label}
+            </div>
+          ))}
         <div className="rail-foot">
           <div className="avatar">{me.name.slice(0, 1)}</div>
           <div className="who">
@@ -189,6 +194,13 @@ function NavIcon({ name }: { name: string }) {
     strokeLinejoin: 'round' as const,
   }
   switch (name) {
+    case 'samples':
+      return (
+        <svg {...common}>
+          <path d="M12 2.8 20 7v10l-8 4.2L4 17V7Z" />
+          <path d="M4 7l8 4.2L20 7M12 11.2V21" />
+        </svg>
+      )
     case 'entrustments':
       return (
         <svg {...common}>

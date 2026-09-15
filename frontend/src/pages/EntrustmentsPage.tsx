@@ -17,8 +17,8 @@ import { PlusOutlined } from '@ant-design/icons'
 import { apiFetch } from '../api/client'
 import { useMe } from '../auth'
 import { dotColor } from '../theme'
-import type { Customer, Entrustment, EntrustStatus } from '../types'
-import { ENTRUST_STATUS_LABELS } from '../types'
+import type { Customer, Entrustment, EntrustStatus, Sample, SampleStatus } from '../types'
+import { ENTRUST_STATUS_LABELS, SAMPLE_STATUS_LABELS } from '../types'
 
 const STATUS_TAG: Record<EntrustStatus, string> = {
   draft: 'default',
@@ -27,6 +27,13 @@ const STATUS_TAG: Record<EntrustStatus, string> = {
   report_issued: 'gold',
   completed: 'green',
   terminated: 'red',
+}
+
+const SAMPLE_TAG: Record<SampleStatus, string> = {
+  registered: 'default',
+  in_test: 'processing',
+  returned: 'gold',
+  disposed: 'red',
 }
 
 export default function EntrustmentsPage() {
@@ -47,7 +54,14 @@ export default function EntrustmentsPage() {
   const [form] = Form.useForm()
   const [termModal, setTermModal] = useState(false)
   const [termReason, setTermReason] = useState('')
+  const [samples, setSamples] = useState<Sample[]>([])
   const timer = useRef<ReturnType<typeof setTimeout> | null>(null)
+
+  const loadSamples = (entrustId: number) => {
+    apiFetch<Sample[]>(`/api/samples?entrustment_id=${entrustId}`)
+      .then(setSamples)
+      .catch(() => setSamples([]))
+  }
 
   const load = useCallback(
     async (query: string, st: string | undefined) => {
@@ -129,6 +143,7 @@ export default function EntrustmentsPage() {
       })
       message.success(action === 'confirm' ? '委托已确认' : '委托已终止')
       setDetail(r)
+      loadSamples(r.id)
       load(q, status)
     } catch (e) {
       message.error(e instanceof Error ? e.message : '操作失败')
@@ -259,7 +274,10 @@ export default function EntrustmentsPage() {
       {/* 详情 Drawer */}
       <Drawer
         open={detail !== null}
-        onClose={() => setDetail(null)}
+        onClose={() => {
+          setDetail(null)
+          setSamples([])
+        }}
         width={560}
         title={
           detail && (
@@ -269,6 +287,9 @@ export default function EntrustmentsPage() {
             </span>
           )
         }
+        afterOpenChange={(open) => {
+          if (open && detail) loadSamples(detail.id)
+        }}
       >
         {detail && (
           <>
@@ -311,6 +332,36 @@ export default function EntrustmentsPage() {
             >
               {detail.requirement || '（未填写）'}
             </div>
+
+            <div style={{ fontSize: 13, fontWeight: 600, color: 'var(--ink2)', margin: '4px 0 8px' }}>
+              样品（{samples.length}）
+            </div>
+            {samples.length === 0 ? (
+              <div style={{ fontSize: 12.5, color: 'var(--ink3)', border: '1px dashed var(--line)', borderRadius: 10, padding: '10px 12px', marginBottom: 18 }}>
+                尚未登记样品 —— 到「样品管理」里登记
+              </div>
+            ) : (
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 6, marginBottom: 18 }}>
+                {samples.map((s) => (
+                  <div
+                    key={s.id}
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: 10,
+                      border: '1px solid var(--line)',
+                      borderRadius: 10,
+                      padding: '8px 12px',
+                      fontSize: 13,
+                    }}
+                  >
+                    <span className="cust-code">{s.code}</span>
+                    <span style={{ flex: 1 }}>{s.name_model}</span>
+                    <Tag color={SAMPLE_TAG[s.status]}>{SAMPLE_STATUS_LABELS[s.status]}</Tag>
+                  </div>
+                ))}
+              </div>
+            )}
 
             {canWrite && detail.status === 'draft' && (
               <Button type="primary" loading={busy} onClick={() => act(detail, 'confirm')}>

@@ -75,6 +75,40 @@ export interface Entrustment {
   terminated_reason: string | null
 }
 
+export type SampleStatus = 'registered' | 'in_test' | 'returned' | 'disposed'
+
+export const SAMPLE_STATUS_LABELS: Record<SampleStatus, string> = {
+  registered: '已登记',
+  in_test: '在测',
+  returned: '已返',
+  disposed: '已报废',
+}
+
+export interface SampleEvent {
+  from_status: string | null
+  to_status: string
+  to_status_label: string
+  operator: string | null
+  note: string | null
+  created_at: string
+}
+
+export interface Sample {
+  id: number
+  code: string
+  biz_line: string
+  entrustment_id: number
+  entrustment_code: string
+  name_model: string
+  appearance: string | null
+  external_no: string | null
+  status: SampleStatus
+  status_label: string
+  created_by: string | null
+  created_at: string
+  events: SampleEvent[]
+}
+
 export interface Customer {
   id: number
   code: string
