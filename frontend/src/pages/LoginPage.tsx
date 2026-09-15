@@ -54,12 +54,12 @@ export default function LoginPage() {
         <div className="sub">使用分配的账号进入本实验室系统</div>
         <Form layout="vertical" onFinish={onFinish}>
           <Form.Item name="username" label="用户名" rules={[{ required: true, message: '请输入用户名' }]}>
-            <Input prefix={<UserOutlined />} placeholder="请输入用户名" autoFocus size="large" />
+            <Input prefix={<UserOutlined />} placeholder="请输入用户名" autoFocus />
           </Form.Item>
           <Form.Item name="password" label="密码" rules={[{ required: true, message: '请输入密码' }]}>
-            <Input.Password prefix={<LockOutlined />} placeholder="请输入密码" size="large" />
+            <Input.Password prefix={<LockOutlined />} placeholder="请输入密码" />
           </Form.Item>
-          <Button type="primary" htmlType="submit" block size="large" loading={busy} style={{ marginTop: 8 }}>
+          <Button type="primary" htmlType="submit" block loading={busy} style={{ marginTop: 6 }}>
             登 录
           </Button>
         </Form>

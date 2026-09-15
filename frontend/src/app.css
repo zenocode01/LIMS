@@ -185,28 +185,31 @@ body {
   z-index: 2;
   justify-self: end;
   width: 100%;
-  max-width: 400px;
+  max-width: 356px;
   background: rgba(255, 255, 255, 0.97);
-  border-radius: 18px;
-  padding: 44px 40px 36px;
+  border-radius: 16px;
+  padding: 34px 30px 26px;
   box-shadow: 0 24px 80px rgba(2, 8, 23, 0.5);
   color: var(--ink);
 }
 .login-card h2 {
-  font-size: 21px;
+  font-size: 19px;
   font-weight: 700;
-  margin-bottom: 6px;
+  margin-bottom: 4px;
 }
 .login-card .sub {
-  font-size: 13px;
+  font-size: 12.5px;
   color: var(--ink2);
-  margin-bottom: 30px;
+  margin-bottom: 24px;
+}
+.login-card .ant-form-item {
+  margin-bottom: 18px;
 }
 .login-card .note {
-  margin-top: 22px;
-  padding-top: 18px;
+  margin-top: 18px;
+  padding-top: 14px;
   border-top: 1px solid var(--line);
-  font-size: 12px;
+  font-size: 11.5px;
   color: var(--ink3);
   display: flex;
   justify-content: space-between;

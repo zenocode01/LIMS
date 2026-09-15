@@ -201,3 +201,14 @@
 2026-09-14 03:46:14 | phase | review -> commit --pass
 2026-09-14 03:47:03 | branch | merged vibe/T-014 -> main and deleted
 2026-09-14 03:47:03 | close | T-014 (P2-报价管理（报价单状态机+明细，首屏打样延续）)
+2026-09-15 00:42:32 | add | T-015 (修复: 登录页右侧卡片过大)
+2026-09-15 00:42:33 | branch | created vibe/T-015 (from main)
+2026-09-15 00:42:33 | begin | T-015 (修复: 登录页右侧卡片过大)
+2026-09-15 00:42:33 | phase | analyze -> plan
+2026-09-15 00:42:33 | phase | plan -> implement
+2026-09-15 00:43:52 | phase | implement -> verify
+2026-09-15 00:44:24 | verify | verify -> review exit=0 [cd backend && python3 -m pytest] 证据: /home/dkd/projects/lims/.vibe/evidence/20260915-004353-verify-review.txt
+2026-09-15 00:44:24 | auto-sync | in-progress -> review (Phase=review)
+2026-09-15 00:44:24 | phase | verify -> review --green
+2026-09-15 00:44:24 | resolve | T-015 (修复: 登录页右侧卡片过大)
+2026-09-15 00:44:51 | phase | review -> commit --pass
