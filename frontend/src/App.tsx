@@ -7,6 +7,7 @@ import CustomersPage from './pages/CustomersPage'
 import QuotationsPage from './pages/QuotationsPage'
 import EntrustmentsPage from './pages/EntrustmentsPage'
 import SamplesPage from './pages/SamplesPage'
+import StandardsPage from './pages/StandardsPage'
 import { Shell } from './auth'
 import { antdTheme } from './theme'
 
@@ -54,6 +55,14 @@ export default function App() {
               element={
                 <Shell title="样品管理" active="samples">
                   <SamplesPage />
+                </Shell>
+              }
+            />
+            <Route
+              path="/standards"
+              element={
+                <Shell title="标准库" active="standards">
+                  <StandardsPage />
                 </Shell>
               }
             />

@@ -161,3 +161,25 @@ Depends: T-016
 - [x] 前端: 样品管理页（列表/详情/登记/流转+备注/留痕时间线）、导航、委托详情样品区
 - [x] tests/test_samples.py（5 例：RBAC/编号+登记留痕/流转链+留痕倒序/非法迁移/过滤搜索）
 Status: done
+
+## T-018 P3-标准库（标准+测试项目+设备简表）
+Resolution: 实现: 标准库模块（设计规格 §5/§7/§8 落地）——Standard（官方号唯一, 不自定义编号）+ StandardItem（名称/类别 EMI|EMS 属性字段/方法/判据, 类别不入编号）+ Equipment（EQ-NNN 静态编号 简表）；API /api/standards CRUD（项目嵌套整组替换, 重复标准号 409）+ /api/equipment CRUD；权限 §5 业务/工程师查看、管理维护；alembic 0007；前端标准库页（标准/设备双 Tab + 项目动态编辑器 + 类别标签）；tests 4 例, 全量 pytest 60 绿; E2E 实测入库 GB 9254-2028（EMI+EMS 双项目）+ 三角色权限验证
+- [x] 后端: Standard/StandardItem/Equipment 模型（标准用官方号；项目=名称/类别EMI|EMS/方法/判据；设备 EQ-NNN 静态）
+- [x] API: /api/standards CRUD（嵌套项目整组替换）+ /api/equipment CRUD（EQ 编号）
+- [x] 权限 §5: 业务/工程师查看, 管理维护
+- [x] alembic 0007_standards
+- [x] 前端: 标准库页（标准/设备双 Tab, 项目动态编辑器, EMI/EMS 类别标签）
+- [x] tests/test_standards.py（4 例）, 全量 60 绿
+Status: review
+
+## T-019 P3-记录模板库（模板+字段定义）
+Depends: T-018
+Status: backlog
+
+## T-020 P3-测试任务（确认委托自动生成+任务状态机）
+Depends: T-018, T-019
+Status: backlog
+
+## T-021 P3-排程日历（任务排程+日历视图）
+Depends: T-020
+Status: backlog
