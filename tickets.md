@@ -150,7 +150,7 @@ Resolution: 实现: 委托单模块（设计规格 §3/§5/§7 落地）——�
 - [x] alembic 0005_entrustments
 - [x] 前端: 委托管理页（列表+详情+新建+确认/终止）、侧边导航、报价页转委托接线、工作台入口
 - [x] tests/test_entrusts.py（6 例：RBAC/编号/确认守卫/终止守卫/转委托/搜索过滤）
-Status: review
+Status: done
 
 ## T-017 P2-样品管理（样品状态机+流转留痕）
 Depends: T-016

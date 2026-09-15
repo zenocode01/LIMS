@@ -228,3 +228,5 @@
 2026-09-15 03:55:44 | phase | verify -> review --green
 2026-09-15 03:56:02 | resolve | T-016 (P2-委托管理（委托单状态机+从报价一键转入）)
 2026-09-15 03:56:02 | phase | review -> commit --pass
+2026-09-15 04:06:12 | branch | merged vibe/T-016 -> main and deleted
+2026-09-15 04:06:12 | close | T-016 (P2-委托管理（委托单状态机+从报价一键转入）)
