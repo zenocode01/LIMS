@@ -104,7 +104,10 @@ export default function WorkbenchPage() {
             新建报价
           </div>
         )}
-        <div className="act ghost" title="模块即将上线">
+        <div
+          className="act ghost"
+          onClick={() => nav('/entrustments', { state: { create: me?.role !== 'engineer' } })}
+        >
           {Plus}
           新建委托
         </div>

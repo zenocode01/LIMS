@@ -166,6 +166,21 @@ export default function QuotationsPage() {
     }
   }
 
+  const convert = async (quote: Quote) => {
+    setBusy(true)
+    try {
+      const e = await apiFetch<{ code: string }>('/api/entrustments/from-quote/' + quote.id, { method: 'POST' })
+      message.success(`已转委托单 ${e.code}，去委托管理确认即可`)
+      const r = await apiFetch<Quote>(`/api/quotations/${quote.id}`)
+      setDetail(r)
+      load(q, status)
+    } catch (err) {
+      message.error(err instanceof Error ? err.message : '转委托失败')
+    } finally {
+      setBusy(false)
+    }
+  }
+
   const columns: ColumnsType<Quote> = [
     {
       title: '编号',
@@ -351,9 +366,17 @@ export default function QuotationsPage() {
                   </>
                 )}
                 {detail.status === 'finalized' && (
-                  <Button type="primary" disabled title="委托管理模块上线后开放（T-015）">
-                    一键转委托单
-                  </Button>
+                  <Popconfirm
+                    title="转入委托单？"
+                    description="将继承客户与报价明细，报价单置为「已转委托」"
+                    onConfirm={() => convert(detail)}
+                    okText="转入"
+                    cancelText="再想想"
+                  >
+                    <Button type="primary" loading={busy}>
+                      一键转委托单
+                    </Button>
+                  </Popconfirm>
                 )}
               </div>
             )}

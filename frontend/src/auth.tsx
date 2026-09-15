@@ -84,9 +84,9 @@ function ShellLayout({
     { key: 'workbench', label: '工作台', to: '/', roles: null as string[] | null },
     { key: 'customers', label: '客户管理', to: '/customers', roles: ['business', 'admin'] },
     { key: 'quotations', label: '报价管理', to: '/quotations', roles: ['business', 'admin'] },
+    { key: 'entrustments', label: '委托管理', to: '/entrustments', roles: null },
   ]
   const soon = [
-    { key: 'entrustments', label: '委托管理' },
     { key: 'samples', label: '样品管理' },
   ]
 
@@ -189,6 +189,14 @@ function NavIcon({ name }: { name: string }) {
     strokeLinejoin: 'round' as const,
   }
   switch (name) {
+    case 'entrustments':
+      return (
+        <svg {...common}>
+          <rect x="4.8" y="4.2" width="14.4" height="17" rx="1.6" />
+          <path d="M9 4.2V2.8h6v1.4" />
+          <path d="m8.6 13.6 2.4 2.4 4.4-4.8" />
+        </svg>
+      )
     case 'quotations':
       return (
         <svg {...common}>
