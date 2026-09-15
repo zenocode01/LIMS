@@ -88,6 +88,7 @@ function ShellLayout({
   const bizItems: { key: string; label: string; to: string; roles: string[] | null }[] = [
     { key: 'entrustments', label: '委托管理', to: '/entrustments', roles: null },
     { key: 'samples', label: '样品管理', to: '/samples', roles: null },
+    { key: 'tasks', label: '测试任务', to: '/tasks', roles: null },
     { key: 'standards', label: '标准库', to: '/standards', roles: null },
     { key: 'templates', label: '记录模板', to: '/templates', roles: null },
   ]
@@ -196,6 +197,13 @@ function NavIcon({ name }: { name: string }) {
     strokeLinejoin: 'round' as const,
   }
   switch (name) {
+    case 'tasks':
+      return (
+        <svg {...common}>
+          <circle cx="12" cy="12" r="8.6" />
+          <path d="M12 7.4V12l3.2 2" />
+        </svg>
+      )
     case 'templates':
       return (
         <svg {...common}>

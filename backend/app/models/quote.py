@@ -53,7 +53,12 @@ class QuotationItem(Base):
 
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
     quotation_id: Mapped[int] = mapped_column(ForeignKey("quotations.id"), index=True)
-    # 标准项目当前以文本承载（标准库里程碑3 后加 standard_item_id 引用）
+    # 标准项目引用（T-018 标准库上线后接通）; 为空时以 item_name 文本承载
+    standard_item_id: Mapped[int | None] = mapped_column(
+        ForeignKey("standard_items.id"), nullable=True, index=True
+    )
     item_name: Mapped[str] = mapped_column(String(128))
     qty: Mapped[int] = mapped_column(Integer, default=1)
     unit_price: Mapped[float] = mapped_column(Numeric(12, 2), default=0)
+
+    standard_item = relationship("StandardItem", lazy="joined")

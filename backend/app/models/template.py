@@ -51,4 +51,4 @@ class TemplateField(Base):
     required: Mapped[bool] = mapped_column(Boolean, default=False)
     criteria_expr: Mapped[str | None] = mapped_column(String(256), nullable=True)
 
-    template = relationship("RecordTemplate", lazy="joined")
+    template = relationship("RecordTemplate", lazy="joined", overlaps="fields")

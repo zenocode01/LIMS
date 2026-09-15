@@ -9,6 +9,7 @@ import EntrustmentsPage from './pages/EntrustmentsPage'
 import SamplesPage from './pages/SamplesPage'
 import StandardsPage from './pages/StandardsPage'
 import TemplatesPage from './pages/TemplatesPage'
+import TasksPage from './pages/TasksPage'
 import { Shell } from './auth'
 import { antdTheme } from './theme'
 
@@ -72,6 +73,14 @@ export default function App() {
               element={
                 <Shell title="记录模板" active="templates">
                   <TemplatesPage />
+                </Shell>
+              }
+            />
+            <Route
+              path="/tasks"
+              element={
+                <Shell title="测试任务" active="tasks">
+                  <TasksPage />
                 </Shell>
               }
             />

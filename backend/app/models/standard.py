@@ -44,7 +44,7 @@ class StandardItem(Base):
     method: Mapped[str | None] = mapped_column(String(256), nullable=True)
     criteria: Mapped[str | None] = mapped_column(String(512), nullable=True)
 
-    standard = relationship("Standard", lazy="joined")
+    standard = relationship("Standard", lazy="joined", overlaps="items")
 
 
 class Equipment(Base):

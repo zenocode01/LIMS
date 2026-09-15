@@ -10,6 +10,7 @@ from .api.quotes import router as quotes_router
 from .api.samples import router as samples_router
 from .api.standards import equipment_router, standards_router
 from .api.templates import router as templates_router
+from .api.tasks import router as tasks_router
 from .api.users import router as users_router
 from .config import get_settings
 
@@ -64,6 +65,7 @@ def create_app(static_dir: str | None = None) -> FastAPI:
     app.include_router(standards_router)
     app.include_router(equipment_router)
     app.include_router(templates_router)
+    app.include_router(tasks_router)
 
     @app.get("/api/health")
     def health():
