@@ -139,4 +139,4 @@ Status: done
 
 ## T-015 修复: 登录页右侧卡片过大
 Resolution: 根因: 登录卡片 max-width 400px + padding 44/40 + 大尺寸控件（size=large），整体偏大；修复: max-width 356px、padding 34/30/26、圆角 16、标题 19px、表单项距 18px、输入框/按钮降为默认高度（32px）、底部备注收窄，卡片整体高度约 -25%；验证: tsc+vite build 通过，重启 lims 服务后 Playwright 截图对比（real3-login.png）
-Status: review
+Status: done

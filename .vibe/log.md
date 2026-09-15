@@ -212,3 +212,5 @@
 2026-09-15 00:44:24 | phase | verify -> review --green
 2026-09-15 00:44:24 | resolve | T-015 (修复: 登录页右侧卡片过大)
 2026-09-15 00:44:51 | phase | review -> commit --pass
+2026-09-15 00:45:23 | branch | merged vibe/T-015 -> main and deleted
+2026-09-15 00:45:23 | close | T-015 (修复: 登录页右侧卡片过大)
