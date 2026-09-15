@@ -283,3 +283,5 @@
 2026-09-15 05:04:56 | phase | verify -> review --green
 2026-09-15 05:04:56 | resolve | T-020 (P3-测试任务（确认委托自动生成+任务状态机）)
 2026-09-15 05:04:56 | phase | review -> commit --pass
+2026-09-15 05:06:15 | branch | merged vibe/T-020 -> main and deleted
+2026-09-15 05:06:15 | close | T-020 (P3-测试任务（确认委托自动生成+任务状态机）)

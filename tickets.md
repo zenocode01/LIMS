@@ -194,7 +194,7 @@ Depends: T-018, T-019
 - [x] 前端: 测试任务页（列表/详情/开测/完成/打回+原因/状态类别筛选）、报价明细标准项目选择器、委托确认提示任务数
 - [x] alembic 0009_tasks（SQLite 方言兼容）
 - [x] tests/test_tasks.py（4 例）, 全量 68 绿; E2E 全链路实测
-Status: review
+Status: done
 
 ## T-021 P3-排程日历（任务排程+日历视图）
 Depends: T-020
