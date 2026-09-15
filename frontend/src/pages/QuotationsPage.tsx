@@ -19,7 +19,7 @@ import { DeleteOutlined, PlusOutlined } from '@ant-design/icons'
 import { apiFetch } from '../api/client'
 import { useMe } from '../auth'
 import { dotColor } from '../theme'
-import type { Customer, Quote, QuoteStatus } from '../types'
+import type { Customer, Quote, QuoteStatus, Standard } from '../types'
 import { QUOTE_STATUS_LABELS } from '../types'
 
 const STATUS_TAG: Record<QuoteStatus, string> = {
@@ -36,6 +36,7 @@ export function money(n: number): string {
 
 interface ItemRow {
   key: number
+  standard_item_id: number | null
   item_name: string
   qty: number
   unit_price: number
@@ -57,8 +58,9 @@ export default function QuotationsPage() {
   const [modal, setModal] = useState<'create' | Quote | null>(null)
   const [busy, setBusy] = useState(false)
   const [customers, setCustomers] = useState<Customer[]>([])
+  const [stdItems, setStdItems] = useState<{ id: number; label: string; name: string }[]>([])
   const [form] = Form.useForm()
-  const [items, setItems] = useState<ItemRow[]>([{ key: rowKey++, item_name: '', qty: 1, unit_price: 0 }])
+  const [items, setItems] = useState<ItemRow[]>([{ key: rowKey++, standard_item_id: null, item_name: '', qty: 1, unit_price: 0 }])
   const timer = useRef<ReturnType<typeof setTimeout> | null>(null)
 
   const load = useCallback(
@@ -88,6 +90,16 @@ export default function QuotationsPage() {
     apiFetch<Customer[]>('/api/customers')
       .then((cs) => setCustomers([...cs].sort((a, b) => a.name.localeCompare(b.name))))
       .catch(() => undefined)
+    // 标准项目引用（T-018 标准库）: 明细可选挂引用, 任务生成依赖它
+    apiFetch<Standard[]>('/api/standards')
+      .then((ss) =>
+        setStdItems(
+          ss.flatMap((s) =>
+            s.items.map((i) => ({ id: i.id, label: `${i.name}（${s.std_no}）`, name: i.name })),
+          ),
+        ),
+      )
+      .catch(() => undefined)
   }, [canWrite])
 
   // 从工作台「新建报价」跳来 → 直接弹建单框
@@ -109,13 +121,13 @@ export default function QuotationsPage() {
 
   const openCreate = () => {
     form.resetFields()
-    setItems([{ key: rowKey++, item_name: '', qty: 1, unit_price: 0 }])
+    setItems([{ key: rowKey++, standard_item_id: null, item_name: '', qty: 1, unit_price: 0 }])
     setModal('create')
   }
 
   const openEdit = (quote: Quote) => {
     form.setFieldsValue({ customer_id: quote.customer_id, remark: quote.remark })
-    setItems(quote.items.map((i) => ({ key: rowKey++, ...i })))
+    setItems(quote.items.map((i) => ({ key: rowKey++, standard_item_id: i.standard_item_id ?? null, item_name: i.item_name, qty: i.qty, unit_price: i.unit_price })))
     setModal(quote)
   }
 
@@ -124,7 +136,7 @@ export default function QuotationsPage() {
 
   const onSubmit = async () => {
     const values = await form.validateFields()
-    const clean = items.filter((i) => i.item_name.trim())
+    const clean = items.filter((i) => i.item_name.trim() || i.standard_item_id)
     if (clean.length === 0) {
       message.warning('请至少填写一条报价明细')
       return
@@ -413,19 +425,32 @@ export default function QuotationsPage() {
           </div>
 
           <div style={{ fontSize: 13, fontWeight: 600, color: 'var(--ink2)', margin: '4px 0 10px' }}>报价明细</div>
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 80px 120px 110px 36px', gap: 8, marginBottom: 6, fontSize: 11.5, color: 'var(--ink3)', fontWeight: 600 }}>
-            <span>项目</span><span>数量</span><span>单价</span><span style={{ textAlign: 'right' }}>金额</span><span />
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1.1fr 70px 110px 100px 34px', gap: 8, marginBottom: 6, fontSize: 11.5, color: 'var(--ink3)', fontWeight: 600 }}>
+            <span>标准项目</span><span>项目名称</span><span>数量</span><span>单价</span><span style={{ textAlign: 'right' }}>金额</span><span />
           </div>
           {items.map((i) => (
-            <div key={i.key} style={{ display: 'grid', gridTemplateColumns: '1fr 80px 120px 110px 36px', gap: 8, marginBottom: 8, alignItems: 'center' }}>
-              <Input value={i.item_name} onChange={(e) => setItem(i.key, { item_name: e.target.value })} placeholder="如：辐射发射（30m，开阔场）" />
+            <div key={i.key} style={{ display: 'grid', gridTemplateColumns: '1fr 1.1fr 70px 110px 100px 34px', gap: 8, marginBottom: 8, alignItems: 'center' }}>
+              <Select
+                allowClear
+                showSearch
+                optionFilterProp="label"
+                placeholder="从标准库选（可选）"
+                style={{ width: '100%' }}
+                value={i.standard_item_id ?? undefined}
+                onChange={(v) => {
+                  const hit = stdItems.find((s) => s.id === v)
+                  setItem(i.key, { standard_item_id: v ?? null, ...(hit ? { item_name: hit.name } : {}) })
+                }}
+                options={stdItems.map((s) => ({ value: s.id, label: s.label }))}
+              />
+              <Input value={i.item_name} onChange={(e) => setItem(i.key, { item_name: e.target.value })} placeholder="手填名称（未选标准项目时必填）" />
               <InputNumber min={1} value={i.qty} onChange={(v) => setItem(i.key, { qty: v ?? 1 })} style={{ width: '100%' }} />
               <InputNumber min={0} step={100} value={i.unit_price} onChange={(v) => setItem(i.key, { unit_price: v ?? 0 })} style={{ width: '100%' }} addonBefore="¥" />
               <span className="cust-code" style={{ textAlign: 'right' }}>{money((i.qty || 0) * (i.unit_price || 0))}</span>
               <Button type="text" danger icon={<DeleteOutlined />} disabled={items.length === 1} onClick={() => setItems((prev) => prev.filter((x) => x.key !== i.key))} />
             </div>
           ))}
-          <Button icon={<PlusOutlined />} type="dashed" block onClick={() => setItems((prev) => [...prev, { key: rowKey++, item_name: '', qty: 1, unit_price: 0 }])}>
+          <Button icon={<PlusOutlined />} type="dashed" block onClick={() => setItems((prev) => [...prev, { key: rowKey++, standard_item_id: null, item_name: '', qty: 1, unit_price: 0 }])}>
             添加明细
           </Button>
 

@@ -58,3 +58,4 @@ class Entrustment(Base):
 
     customer = relationship("Customer", lazy="joined")
     source_quote = relationship("Quotation", lazy="joined")
+    tasks = relationship("Task")

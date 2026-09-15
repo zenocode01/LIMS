@@ -141,7 +141,13 @@ export default function EntrustmentsPage() {
         method: 'POST',
         body: JSON.stringify(body ?? {}),
       })
-      message.success(action === 'confirm' ? '委托已确认' : '委托已终止')
+      message.success(
+        action === 'confirm'
+          ? r.task_count > 0
+            ? `委托已确认，自动生成 ${r.task_count} 个测试任务`
+            : '委托已确认（未生成任务：来源报价未挂标准项目或无样品）'
+          : '委托已终止',
+      )
       setDetail(r)
       loadSamples(r.id)
       load(q, status)

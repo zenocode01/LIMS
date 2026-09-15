@@ -4,7 +4,9 @@ from pydantic import BaseModel, Field
 
 
 class QuoteItemIn(BaseModel):
-    item_name: str = Field(min_length=1, max_length=128)
+    # 二选一: 选标准项目（自动回填名称）或手填名称
+    item_name: str | None = Field(default=None, max_length=128)
+    standard_item_id: int | None = None
     qty: int = Field(default=1, ge=1)
     unit_price: float = Field(default=0, ge=0)
 
@@ -24,6 +26,7 @@ class QuoteUpdate(BaseModel):
 
 class QuoteItemOut(BaseModel):
     item_name: str
+    standard_item_id: int | None = None
     qty: int
     unit_price: float
     amount: float
@@ -60,6 +63,7 @@ def quote_to_out(q) -> QuoteOut:
         items=[
             QuoteItemOut(
                 item_name=i.item_name,
+                standard_item_id=i.standard_item_id,
                 qty=i.qty,
                 unit_price=float(i.unit_price),
                 amount=round(float(i.unit_price) * i.qty, 2),

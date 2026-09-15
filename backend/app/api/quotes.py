@@ -8,6 +8,7 @@ from ..db import get_db
 from ..deps import require_role
 from ..models.customer import Customer
 from ..models.quote import QUOTE_TRANSITIONS, Quotation, QuotationItem
+from ..models.standard import StandardItem
 from ..numbering.service import no_quote
 from ..schemas.quote import QuoteIn, QuoteOut, QuoteUpdate, quote_to_out
 
@@ -33,10 +34,25 @@ def _set_status(q: Quotation, to: str, **fields) -> None:
         setattr(q, k, v)
 
 
-def _replace_items(q: Quotation, items) -> None:
-    q.items = [
-        QuotationItem(item_name=i.item_name, qty=i.qty, unit_price=i.unit_price) for i in items
-    ]
+def _replace_items(q: Quotation, items, db: Session) -> None:
+    """明细整组替换；挂标准项目引用时自动回填名称（T-020 起）。"""
+    new_items = []
+    for i in items:
+        si = db.get(StandardItem, i.standard_item_id) if i.standard_item_id else None
+        if i.standard_item_id and si is None:
+            raise HTTPException(404, f"标准项目 {i.standard_item_id} 不存在")
+        name = (i.item_name or "").strip() or (si.name if si else "")
+        if not name:
+            raise HTTPException(422, "请为每行明细选择标准项目或填写项目名称")
+        new_items.append(
+            QuotationItem(
+                standard_item_id=i.standard_item_id,
+                item_name=name,
+                qty=i.qty,
+                unit_price=i.unit_price,
+            )
+        )
+    q.items = new_items
 
 
 @router.get("", response_model=list[QuoteOut], dependencies=[READER])
@@ -67,7 +83,7 @@ def create_quote(body: QuoteIn, db: Session = Depends(get_db)):
     if db.get(Customer, body.customer_id) is None:
         raise HTTPException(404, "客户不存在")
     quote = Quotation(code=no_quote(db), customer_id=body.customer_id, remark=body.remark)
-    _replace_items(quote, body.items)
+    _replace_items(quote, body.items, db)
     db.add(quote)
     db.commit()
     db.refresh(quote)
@@ -79,7 +95,7 @@ def update_quote(quote_id: int, body: QuoteUpdate, db: Session = Depends(get_db)
     quote = _get_or_404(db, quote_id)
     if quote.status != "draft":
         raise HTTPException(409, "仅草稿状态的报价单可编辑")
-    _replace_items(quote, body.items)
+    _replace_items(quote, body.items, db)
     quote.remark = body.remark
     db.commit()
     db.refresh(quote)

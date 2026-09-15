@@ -12,6 +12,7 @@ from ..models.quote import QUOTE_TRANSITIONS, Quotation
 from ..models.user import User
 from ..numbering.service import no_entrustment
 from ..schemas.entrust import EntrustIn, EntrustOut, EntrustUpdate, TerminateIn
+from .tasks import generate_tasks_for_entrustment
 
 # 权限（设计规格 §5）: 业务=创建/编辑/确认, 工程师=查看, 管理=全量+终止
 READER = Depends(require_role("business", "engineer", "admin"))
@@ -109,7 +110,8 @@ def update_entrustment(
 def confirm_entrustment(entrust_id: int, db: Session = Depends(get_db)):
     e = _get_or_404(db, entrust_id)
     _set_status(e, "confirmed", confirmed_at=datetime.utcnow())
-    # 里程碑3: 此处按 标准项目 × 样品 自动生成测试任务（钩子）
+    # T-020: 按 标准项目 × 样品 自动生成测试任务
+    generate_tasks_for_entrustment(db, e)
     db.commit()
     db.refresh(e)
     return EntrustOut.from_orm(e)

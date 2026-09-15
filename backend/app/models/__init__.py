@@ -4,6 +4,7 @@ from .quote import Quotation, QuotationItem
 from .sample import Sample, SampleEvent
 from .sequence import NumberingSequence
 from .standard import Equipment, Standard, StandardItem
+from .task import Task
 from .template import RecordTemplate, TemplateField
 from .user import User
 
@@ -21,4 +22,5 @@ __all__ = [
     "Equipment",
     "RecordTemplate",
     "TemplateField",
+    "Task",
 ]

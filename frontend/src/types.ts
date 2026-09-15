@@ -18,6 +18,7 @@ export const QUOTE_STATUS_LABELS: Record<QuoteStatus, string> = {
 
 export interface QuoteItemOut {
   item_name: string
+  standard_item_id: number | null
   qty: number
   unit_price: number
   amount: number
@@ -67,6 +68,7 @@ export interface Entrustment {
   external_no: string | null
   status: EntrustStatus
   status_label: string
+  task_count: number
   created_by: string | null
   created_at: string
   confirmed_at: string | null
@@ -160,6 +162,41 @@ export interface RecordTemplate {
   fields: TemplateField[]
   field_count: number
   created_at: string
+}
+
+export type TaskStatus = 'unscheduled' | 'scheduled' | 'testing' | 'completed'
+
+export const TASK_STATUS_LABELS: Record<TaskStatus, string> = {
+  unscheduled: '未排程',
+  scheduled: '已排程',
+  testing: '测试中',
+  completed: '完成',
+}
+
+export interface Task {
+  id: number
+  code: string
+  entrustment_id: number
+  entrustment_code: string
+  sample_id: number
+  sample_code: string
+  sample_name: string
+  item_id: number
+  item_name: string
+  category: string
+  status: TaskStatus
+  status_label: string
+  retest_reason: string | null
+  created_at: string
+  started_at: string | null
+  completed_at: string | null
+}
+
+export interface StandardItemRef {
+  id: number
+  std_no: string
+  name: string
+  category: string
 }
 
 export interface Customer {

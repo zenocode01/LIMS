@@ -31,6 +31,7 @@ class EntrustOut(BaseModel):
     external_no: str | None
     status: str
     status_label: str
+    task_count: int = 0
     created_by: str | None
     created_at: datetime | None
     confirmed_at: datetime | None
@@ -53,6 +54,7 @@ class EntrustOut(BaseModel):
             external_no=e.external_no,
             status=e.status,
             status_label=ENTRUST_STATUS_LABELS.get(e.status, e.status),
+            task_count=len(e.tasks),
             created_by=e.created_by,
             created_at=e.created_at,
             confirmed_at=e.confirmed_at,
