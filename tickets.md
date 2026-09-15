@@ -173,8 +173,15 @@ Resolution: 实现: 标准库模块（设计规格 §5/§7/§8 落地）——St
 Status: done
 
 ## T-019 P3-记录模板库（模板+字段定义）
+Resolution: 实现: 记录模板库（设计规格 §5/§7/§8 落地）——RecordTemplate（模板号 3 位静态流水, 入记录编号第 2 段; 表单层级 1-4; 类别 EMI/EMS/通用; 受控 draft/controlled/obsolete; 版本）+ TemplateField（字段名/类型 text|number|date|select/单位/必填/判据表达式, field_no 自动排序）；API /api/record-templates CRUD（字段嵌套整组替换）；权限 §5 业务/工程师查看、管理维护/升版；alembic 0008；前端记录模板页（字段动态编辑器+受控标签+版本）；tests 4 例, 全量 pytest 64 绿; E2E 实测建模板 001（2 字段含必填/单位/判据/数值类型）+ 业务只读
 Depends: T-018
-Status: backlog
+- [x] 后端: RecordTemplate（3位静态模板号/表单层级1-4/类别/受控状态/版本）+ TemplateField（字段名/类型/单位/必填/判据表达式）
+- [x] API: /api/record-templates CRUD（字段嵌套整组替换, field_no 自动编号）
+- [x] 权限 §5: 业务/工程师查看, 管理维护/升版
+- [x] alembic 0008_record_templates
+- [x] 前端: 记录模板页（列表/详情/新建+字段动态编辑器/受控标签/版本）
+- [x] tests/test_templates.py（4 例）, 全量 64 绿
+Status: review
 
 ## T-020 P3-测试任务（确认委托自动生成+任务状态机）
 Depends: T-018, T-019

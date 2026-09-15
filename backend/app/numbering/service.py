@@ -65,6 +65,11 @@ def no_equipment(db: Session) -> str:
     return f"EQ-{take_static(db, 'EQ'):03d}"
 
 
+def no_record_template(db: Session) -> str:
+    """记录模板号: 3 位静态流水（001, 002...）, 入记录编号第 2 段。"""
+    return f"{take_static(db, 'RT'):03d}"
+
+
 def no_record(db: Session, prefix: str, level: int, template_no: int) -> str:
     """技术/质量记录: TR4-004-20250623-001。level=表单层级 1-4。"""
     assert prefix in ("TR", "QR"), f"非法记录前缀 {prefix}"
