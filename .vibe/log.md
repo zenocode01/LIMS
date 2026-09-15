@@ -269,3 +269,5 @@
 2026-09-15 04:39:41 | phase | verify -> review --green
 2026-09-15 04:39:41 | resolve | T-019 (P3-记录模板库（模板+字段定义）)
 2026-09-15 04:39:41 | phase | review -> commit --pass
+2026-09-15 04:40:49 | branch | merged vibe/T-019 -> main and deleted
+2026-09-15 04:40:49 | close | T-019 (P3-记录模板库（模板+字段定义）)

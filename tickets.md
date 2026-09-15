@@ -181,7 +181,7 @@ Depends: T-018
 - [x] alembic 0008_record_templates
 - [x] 前端: 记录模板页（列表/详情/新建+字段动态编辑器/受控标签/版本）
 - [x] tests/test_templates.py（4 例）, 全量 64 绿
-Status: review
+Status: done
 
 ## T-020 P3-测试任务（确认委托自动生成+任务状态机）
 Depends: T-018, T-019
